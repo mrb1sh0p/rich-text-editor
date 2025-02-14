@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { sanitizeHTML } from "../utils/sanitize";
+import ImageUpload from "./ImageUpload";
 
 import {
   FaBold,
@@ -67,6 +68,7 @@ export default function Editor() {
         <button onClick={() => document.execCommand("underline")}>
           <FaUnderline />
         </button>
+        <ImageUpload onSuccess={(url) => handleCommand("insertImage", url)} />
 
         <select onChange={(e) => handleCommand("formatBlock", e.target.value)}>
           <option value="p">Paragraph</option>
@@ -76,14 +78,14 @@ export default function Editor() {
         </select>
 
         <button onClick={() => handleUndo()} disabled={history.pointer === 0}>
-          ↩️ Undo
+          <FaUndo />
         </button>
 
         <button
           onClick={() => handleRedo()}
           disabled={history.pointer === history.stack.length - 1}
         >
-          ↪️ Redo
+          <FaRedo />
         </button>
 
         <button
@@ -92,7 +94,7 @@ export default function Editor() {
             if (url) handleCommand("createLink", url);
           }}
         >
-          🔗 Link
+          <FaLink />
         </button>
 
         <button
@@ -101,7 +103,7 @@ export default function Editor() {
             if (url) handleCommand("insertImage", url);
           }}
         >
-          🖼️ Image
+          <FaImage />
         </button>
       </div>
 

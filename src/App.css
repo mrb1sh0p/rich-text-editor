@@ -1,80 +1,77 @@
-/* src/App.css */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 .app-header {
-    background-color: var(--toolbar-bg);
-    padding: 1rem;
-    border-bottom: 1px solid var(--border-color);
-  }
-  
-  .header-content {
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .app-footer {
-    background-color: var(--toolbar-bg);
-    padding: 1rem;
-    margin-top: 2rem;
-    border-top: 1px solid var(--border-color);
-  }
-  
-  .footer-content {
-    max-width: 800px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.875rem;
-  }
-  
-  .footer-links a {
-    color: var(--text-color);
-    margin-left: 1.5rem;
-    text-decoration: none;
-  }
-  
-  .footer-links a:hover {
-    color: var(--primary-color);
-  }
-  
-  .theme-toggle {
-    background: none;
-    border: none;
-    color: var(--text-color);
-    padding: 0.5rem;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-  
-  .theme-toggle:hover {
-    transform: scale(1.1);
-  }
-  
-  /* Melhorias gerais na UI */
-  .editor-container {
-    border-radius: 8px;
-    overflow: hidden;
-    transition: box-shadow 0.3s;
-  }
-  
-  .editor-container:hover {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  }
-  
-  .toolbar button {
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .toolbar button:hover {
-    background-color: var(--hover-bg);
-  }
-  
-  .modal-content {
-    background-color: var(--bg-color);
-    border: 1px solid var(--border-color);
-  }
+  background-color: var(--toolbar-bg);
+  padding: 1rem;
+}
+
+.header-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.app-footer {
+  background-color: var(--toolbar-bg);
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+.footer-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.footer-links a {
+  color: var(--text-color);
+  margin-left: 1.5rem;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: var(--primary-color);
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+.editor-container {
+  border-radius: 8px;
+  overflow: hidden;
+  transition: box-shadow 0.3s;
+}
+
+.editor-container:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.toolbar button {
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.modal-content {
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+}

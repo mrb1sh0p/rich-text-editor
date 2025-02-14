@@ -1,26 +1,48 @@
 :root {
-    /* Light theme */
-    --bg-color: #ffffff;
-    --text-color: #333333;
-    --primary-color: #2563eb;
-    --secondary-color: #e5e7eb;
-    --border-color: #d1d5db;
-    --hover-bg: #f3f4f6;
-    --toolbar-bg: #f8fafc;
-  }
+  /* Light theme - Neutro suave com toques terrosos */
+  --bg-color: #f8fafc;         /* Branco gelo suave */
+  --text-color: #1a1a1a;       /* Preto suavizado */
+  --primary-color: #3f51b5;    /* Azul slate moderado */
+  --secondary-color: #eceff1;  /* Cinza claro neutro */
+  --accent-color: #6b8790;     /* Azul-cinza terroso */
+  --border-color: #cfd8dc;     /* Cinza médio suave */
+  --hover-bg: #f0f4f8;         /* Azul claro muito suave */
+  --toolbar-bg: #ffffff;       /* Branco puro para contraste */
+  --surface-color: #ffffff;    /* Superfícies brancas */
   
-  [data-theme="dark"] {
-    --bg-color: #1a1a1a;
-    --text-color: #e5e7eb;
-    --primary-color: #3b82f6;
-    --secondary-color: #374151;
-    --border-color: #4b5563;
-    --hover-bg: #2d3748;
-    --toolbar-bg: #111827;
-  }
+  /* Tons de apoio */
+  --success-color: #81c784;    /* Verde suave */
+  --warning-color: #ffd54f;    /* Amêndoa claro */
+  --error-color: #e57373;      /* Vermelho desaturado */
   
-  body {
-    background-color: var(--bg-color);
-    color: var(--text-color);
-    transition: background-color 0.3s, color 0.3s;
-  }
+  /* Espaçamento e bordas */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+}
+
+[data-theme="dark"] {
+  /* Dark theme - Base escura com tons profundos */
+  --bg-color: #1a1d24;         /* Azul-cinza escuro */
+  --text-color: #e0e0e0;       /* Branco acinzentado */
+  --primary-color: #6b8790;    /* Azul petróleo suave */
+  --secondary-color: #2d3138;  /* Cinza-azulado médio */
+  --accent-color: #8a9a9e;     /* Azul-cinza claro */
+  --border-color: #3d424a;     /* Borda escura suave */
+  --hover-bg: #2a2e36;         /* Hover escuro moderado */
+  --toolbar-bg: #21252d;       /* Barra de ferramentas escura */
+  --surface-color: #262a32;    /* Superfícies escuras */
+  
+  /* Tons de apoio ajustados */
+  --success-color: #689f38;    /* Verde musgo */
+  --warning-color: #ffb74d;    /* Âmbar suave */
+  --error-color: #d32f2f;      /* Vermelho terroso */
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: 
+    background-color 0.4s ease-in-out,
+    color 0.4s ease-in-out;
+}

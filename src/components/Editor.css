@@ -9,6 +9,8 @@
   padding: 20px;
   border: 1px solid #ddd;
   outline: none;
+  background: #f6f6f6f6;
+  color: black;
 }
 
 .toolbar {

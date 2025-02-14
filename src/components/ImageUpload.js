@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { ErrorContext } from '../contexts/ErrorContext';
 import axios from 'axios';
-import { FaUpload } from 'react-icons/fa';
 
 const ImageUpload = ({ onSuccess }) => {
   const [loading, setLoading] = useState(false);
-  
+  const { handleError } = useContext(ErrorContext);
+
   const handleUpload = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -21,7 +22,7 @@ const ImageUpload = ({ onSuccess }) => {
       
       onSuccess(response.data.data.url);
     } catch (error) {
-      throw new Error('Falha no upload da imagem: ' + error.message);
+        handleError(new Error('Falha no envio da imagem...'));
     } finally {
       setLoading(false);
     }

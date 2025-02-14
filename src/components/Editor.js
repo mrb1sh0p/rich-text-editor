@@ -1,7 +1,8 @@
 import React, { useEffect, useContext, useState } from "react";
 import { ErrorContext } from "../contexts/ErrorContext";
 import { sanitizeHTML } from "../utils/sanitize";
-import ImageUpload from "./ImageUpload";
+import TableInsertModal from "./TableInsertModal";
+// import ImageUpload from "./ImageUpload";
 import FindReplaceModal from "./FindReplaceModal";
 
 import "./Editor.css";
@@ -21,12 +22,14 @@ import {
   FaLink,
   FaImage,
   FaSearch,
+  FaTable,
 } from "react-icons/fa";
 
 export default function Editor() {
   const editorRef = React.useRef(null);
   const { handleError } = useContext(ErrorContext);
   const [showFindReplace, setShowFindReplace] = useState(false);
+  const [showTableInsert, setShowTableInsert] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("editorContent");
@@ -90,8 +93,6 @@ export default function Editor() {
     alert("Conteúdo copiado para a área de transferência!");
   };
 
-  
-
   return (
     <div className="editor-container">
       <div className="toolbar">
@@ -126,7 +127,14 @@ export default function Editor() {
         >
           <FaUnderline />
         </button>
-        <ImageUpload onSuccess={(url) => handleCommand("insertImage", url)} />
+        {/* <ImageUpload onSuccess={(url) => handleCommand("insertImage", url)} /> */}
+
+        <button
+          onClick={() => setShowTableInsert(true)}
+          aria-label="Inserir tabela"
+        >
+          <FaTable />
+        </button>
 
         <select
           aria-label="Formatar bloco"
@@ -179,14 +187,18 @@ export default function Editor() {
           </option>
         </select>
       </div>
-      {
-        showFindReplace && (
-          <FindReplaceModal
-            editorRef={editorRef}
-            onClose={() => setShowFindReplace(false)}
-          />
-        )
-      }
+      {showFindReplace && (
+        <FindReplaceModal
+          editorRef={editorRef}
+          onClose={() => setShowFindReplace(false)}
+        />
+      )}
+      {showTableInsert && (
+        <TableInsertModal
+          editorRef={editorRef}
+          onClose={() => setShowTableInsert(false)}
+        />
+      )}
       <div
         ref={editorRef}
         className="editor-content"
@@ -195,6 +207,5 @@ export default function Editor() {
         onInput={saveState}
       ></div>
     </div>
-    
   );
 }

@@ -99,17 +99,3 @@ th {
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
-
-.export-icon {
-  margin-left: auto;
-}
-
-.popup-export {
-  position: absolute;
-  top: 0;
-  right: 0;
-  background: white;
-  border: 1px solid #ddd;
-  border-radius: 3px;
-  padding: 10px;
-}

@@ -24,8 +24,6 @@ import {
   FaImage,
   FaSearch,
   FaTable,
-  FaHamburger,
-  FaFileExport,
 } from "react-icons/fa";
 
 export default function Editor() {
@@ -82,11 +80,6 @@ export default function Editor() {
       pointer: prev.pointer + 1,
     }));
     localStorage.setItem("editorContent", content);
-  };
-
-  const handleExportPopup = () => {
-    const popup = document.querySelector(".popup-export");
-    popup.classList.toggle("show");
   };
 
   const handleExport = (format) => {

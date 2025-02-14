@@ -15,9 +15,24 @@ const FindReplaceModal = ({ editorRef, onClose }) => {
   useHotkeys("esc", onClose);
 
   const findMatches = () => {
-    const content = editorRef.current.innerHTML;
-    const regex = new RegExp(findText, "gi");
-    const matches = [...content.matchAll(regex)];
+    const matches = [];
+    const walker = document.createTreeWalker(
+      editorRef.current,
+      NodeFilter.SHOW_TEXT,
+      null,
+      false
+    );
+
+    let node;
+    while ((node = walker.nextNode())) {
+      const text = node.nodeValue;
+      let pos = 0;
+      while ((pos = text.indexOf(findText, pos)) > -1) {
+        matches.push({ node, offset: pos });
+        pos += findText.length;
+      }
+    }
+
     setMatches(matches);
     setCurrentMatch(matches.length > 0 ? 0 : -1);
   };
@@ -26,20 +41,33 @@ const FindReplaceModal = ({ editorRef, onClose }) => {
     if (currentMatch === -1) return;
 
     const selection = window.getSelection();
-    const range = document.createRange();
-    range.setStart(
-      editorRef.current.childNodes[0],
-      matches[currentMatch].index
-    );
-    range.setEnd(
-      editorRef.current.childNodes[0],
-      matches[currentMatch].index + findText.length
-    );
     selection.removeAllRanges();
-    selection.addRange(range);
 
-    document.execCommand("insertText", false, replaceText);
-    findMatches();
+    const walker = document.createTreeWalker(
+      editorRef.current,
+      NodeFilter.SHOW_TEXT,
+      null,
+      false
+    );
+
+    let node;
+    let currentIndex = 0;
+
+    while ((node = walker.nextNode())) {
+      const text = node.nodeValue;
+      const index = text.indexOf(findText);
+
+      if (index > -1 && currentIndex === currentMatch) {
+        const range = document.createRange();
+        range.setStart(node, index);
+        range.setEnd(node, index + findText.length);
+        selection.addRange(range);
+        document.execCommand("insertText", false, replaceText);
+        findMatches();
+        return;
+      }
+      currentIndex++;
+    }
   };
 
   return (

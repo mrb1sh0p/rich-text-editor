@@ -1,7 +1,7 @@
 import "./Editor.css";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-
+import useDebouncedSave from "../hooks/useDebouncedSave";
 import ExportDropdown from "./ExportDropdown";
 import { useError } from '../contexts/ErrorContext';
 import { sanitizeHTML } from "../utils/sanitize";
@@ -41,6 +41,13 @@ export default function Editor() {
     preventDefault: true,
     enableOnContentEditable: true
   });
+
+  const saveToBackend = useCallback((content) => {
+    /* API call */
+  }, []);
+
+  const debouncedSave = useDebouncedSave(saveToBackend);
+
   
   useEffect(() => {
     const saved = localStorage.getItem("editorContent");

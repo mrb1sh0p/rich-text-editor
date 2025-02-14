@@ -1,19 +1,33 @@
-import React, { createContext, useState } from 'react';
+import { useState, useCallback, createContext } from 'react';
+import { reportErrorToService } from '../services/errorLogging';
 
 export const ErrorContext = createContext();
 
 export const ErrorProvider = ({ children }) => {
   const [error, setError] = useState(null);
 
-  const handleError = (error) => {
+  const logError = useCallback(async (errorDetails) => {
+    try {
+      await reportErrorToService(errorDetails);
+      setError(errorDetails.error);
+    } catch (loggingError) {
+      console.error('Falha no log de erro:', loggingError);
+    }
+  }, []);
+
+  const handleError = useCallback((error) => {
+    console.error('Erro tratado:', error);
     setError(error.message);
-    setTimeout(() => setError(null), 5000);
-  };
+    logError({
+      error: error.message,
+      stack: error.stack,
+      context: 'Manual Error'
+    });
+  }, [logError]);
 
   return (
-    <ErrorContext.Provider value={{ error, handleError }}>
+    <ErrorContext.Provider value={{ error, handleError, logError }}>
       {children}
-      {error && <div className="error-message">{error}</div>}
     </ErrorContext.Provider>
   );
 };

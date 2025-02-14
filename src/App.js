@@ -1,5 +1,6 @@
+import axios from "axios";
 import React, { useState, useEffect } from "react";
-import { ErrorProvider } from './contexts/ErrorContext';
+import { ErrorProvider } from "./contexts/ErrorContext";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Editor from "./components/Editor";
@@ -7,6 +8,7 @@ import "./theme.css";
 import "./App.css";
 
 function App() {
+  const mockServiceUrl = "https://mockerrorapi.com/log";
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme
@@ -20,6 +22,15 @@ function App() {
       darkMode ? "dark" : "light"
     );
     localStorage.setItem("theme", darkMode ? "dark" : "light");
+    const flushErrors = async () => {
+      const errors = JSON.parse(localStorage.getItem("errorQueue") || "[]");
+      if (errors.length > 0) {
+        await Promise.all(errors.map((e) => axios.post(mockServiceUrl, e)));
+        localStorage.removeItem("errorQueue");
+      }
+    };
+    window.addEventListener("online", flushErrors);
+    return () => window.removeEventListener("online", flushErrors);
   }, [darkMode]);
 
   const toggleTheme = () => {

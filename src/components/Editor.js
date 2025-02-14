@@ -1,5 +1,5 @@
 import "./Editor.css";
-import React, { useEffect, useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import ExportDropdown from "./ExportDropdown";

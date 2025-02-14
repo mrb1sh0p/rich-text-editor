@@ -4,15 +4,12 @@ const mockServiceUrl = 'https://mockerrorapi.com/log';
 
 export const reportErrorToService = async (errorDetails) => {
   try {
-    await axios.post(mockServiceUrl, {
-      ...errorDetails,
-      meta: {
-        userAgent: navigator.userAgent,
-        url: window.location.href,
-        timestamp: new Date().toISOString()
-      }
-    });
-  } catch (error) {
-    throw new Error('Error logging failed');
+    // Tentar enviar para o servidor
+    await axios.post(mockServiceUrl, errorDetails);
+  } catch (onlineError) {
+    // Fallback para localStorage
+    const errors = JSON.parse(localStorage.getItem('errorQueue') || '[]');
+    errors.push({ ...errorDetails, timestamp: new Date().toISOString() });
+    localStorage.setItem('errorQueue', JSON.stringify(errors));
   }
 };

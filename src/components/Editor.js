@@ -1,4 +1,14 @@
 import React from "react";
+import {
+  FaBold,
+  FaItalic,
+  FaUnderline,
+  FaUndo,
+  FaRedo,
+  FaLink,
+  FaImage,
+} from "react-icons/fa";
+
 import "./Editor.css";
 
 export default function Editor() {
@@ -40,9 +50,15 @@ export default function Editor() {
   return (
     <div className="editor-container">
       <div className="toolbar">
-        <button onClick={() => document.execCommand("bold")}>B</button>
-        <button onClick={() => document.execCommand("italic")}>I</button>
-        <button onClick={() => document.execCommand("underline")}>U</button>
+        <button onClick={() => document.execCommand("bold")}>
+          <FaBold />
+        </button>
+        <button onClick={() => document.execCommand("italic")}>
+          <FaItalic />
+        </button>
+        <button onClick={() => document.execCommand("underline")}>
+          <FaUnderline />
+        </button>
 
         <select onChange={(e) => handleCommand("formatBlock", e.target.value)}>
           <option value="p">Paragraph</option>

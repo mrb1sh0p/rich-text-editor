@@ -1,5 +1,6 @@
 import "./Editor.css";
 import React, { useEffect, useState, useCallback } from "react";
+import { handleTableKeyNavigation } from "../utils/tableNavigation";
 import { useHotkeys } from "react-hotkeys-hook";
 import { useDebouncedSave } from "../hooks/useDebouncedSave";
 import ExportDropdown from "./ExportDropdown";
@@ -154,7 +155,7 @@ export default function Editor() {
   };
 
   return (
-    <div className="editor-container">
+    <div className="editor-container" onKeyDown={handleTableKeyNavigation}>
       <div className="toolbar">
         <button
           onClick={() => setShowFindReplace(true)}

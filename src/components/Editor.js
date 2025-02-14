@@ -1,7 +1,8 @@
+import "./Editor.css";
 import React, { useEffect, useContext, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
-import "./Editor.css";
+import ExportDropdown from './ExportDropdown';
 import { ErrorContext } from "../contexts/ErrorContext";
 import { sanitizeHTML } from "../utils/sanitize";
 import TableInsertModal from "./TableInsertModal";
@@ -198,7 +199,8 @@ export default function Editor() {
         >
           <FaImage />
         </button>
-       
+        <ExportDropdown onExport={handleExport} />
+
       </div>
       {showFindReplace && (
         <FindReplaceModal

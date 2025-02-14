@@ -3,7 +3,7 @@ import React, { useEffect, useContext, useState } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import ExportDropdown from "./ExportDropdown";
-import { ErrorContext } from "../contexts/ErrorContext";
+import { useError } from '../contexts/ErrorContext';
 import { sanitizeHTML } from "../utils/sanitize";
 import TableInsertModal from "./TableInsertModal";
 // import ImageUpload from "./ImageUpload";
@@ -29,7 +29,7 @@ import {
 
 export default function Editor() {
   const editorRef = React.useRef(null);
-  const { handleError } = useContext(ErrorContext);
+  const { handleError } = useError();
   const [showFindReplace, setShowFindReplace] = useState(false);
   const [showTableInsert, setShowTableInsert] = useState(false);
 

@@ -1,10 +1,12 @@
-import React, { useState, useContext } from 'react';
-import { ErrorContext } from '../contexts/ErrorContext';
+import React, { useState } from 'react';
+import { useError } from '../contexts/ErrorContext';
+
 import axios from 'axios';
 
 const ImageUpload = ({ onSuccess }) => {
   const [loading, setLoading] = useState(false);
-  const { handleError } = useContext(ErrorContext);
+  const { handleError } = useError();
+
 
   const handleUpload = async (e) => {
     const file = e.target.files[0];

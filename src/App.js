@@ -1,6 +1,5 @@
-// src/App.js
 import React, { useState, useEffect } from "react";
-import { ErrorProvider } from "./contexts/ErrorContext";
+import { ErrorProvider } from './contexts/ErrorContext';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Editor from "./components/Editor";

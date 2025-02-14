@@ -1,12 +1,12 @@
 import React, { useEffect, useContext, useState } from "react";
-import { useHotkeys } from 'react-hotkeys-hook';
+import { useHotkeys } from "react-hotkeys-hook";
+
+import "./Editor.css";
 import { ErrorContext } from "../contexts/ErrorContext";
 import { sanitizeHTML } from "../utils/sanitize";
 import TableInsertModal from "./TableInsertModal";
 // import ImageUpload from "./ImageUpload";
 import FindReplaceModal from "./FindReplaceModal";
-
-import "./Editor.css";
 
 import {
   exportAsHTML,
@@ -24,6 +24,8 @@ import {
   FaImage,
   FaSearch,
   FaTable,
+  FaHamburger,
+  FaFileExport,
 } from "react-icons/fa";
 
 export default function Editor() {
@@ -32,12 +34,12 @@ export default function Editor() {
   const [showFindReplace, setShowFindReplace] = useState(false);
   const [showTableInsert, setShowTableInsert] = useState(false);
 
-  useHotkeys('ctrl+shift+f, ctrl+shift+f', (e) => {
+  useHotkeys("ctrl+shift+f, ctrl+shift+f", (e) => {
     e.preventDefault();
     setShowFindReplace(true);
   });
-  
-  useHotkeys('ctrl+shift+t, ctrl+shift+t', (e) => {
+
+  useHotkeys("ctrl+shift+t, ctrl+shift+t", (e) => {
     e.preventDefault();
     setShowTableInsert(true);
   });
@@ -82,26 +84,44 @@ export default function Editor() {
     localStorage.setItem("editorContent", content);
   };
 
+  const handleExportPopup = () => {
+    const popup = document.querySelector(".popup-export");
+    popup.classList.toggle("show");
+  };
+
   const handleExport = (format) => {
-    const content = editorRef.current.innerHTML;
-    let exported;
+    console.log("html");
+    try {
+      const content = sanitizeHTML(editorRef.current.innerHTML);
+      let exported = "";
 
-    switch (format) {
-      case "html":
-        exported = exportAsHTML(content);
-        break;
-      case "md":
-        exported = exportAsMarkdown(content);
-        break;
-      case "txt":
-        exported = exportAsText(content);
-        break;
-      default:
-        handleError(new Error("Falha no envio da imagem..."));
+      switch (format) {
+        case "html":
+          console.log("html");
+          exported = exportAsHTML(content);
+          break;
+        case "md":
+          console.log("md");
+          exported = exportAsMarkdown(content);
+          break;
+        case "txt":
+          console.log("txt");
+          exported = exportAsText(content);
+          break;
+        default:
+          throw new Error("Formato de exportação inválido");
+      }
+
+      const blob = new Blob([exported], { type: "text/plain" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `document.${format}`;
+      a.click();
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      handleError(new Error("Erro na exportação: " + error.message));
     }
-
-    navigator.clipboard.writeText(exported);
-    alert("Conteúdo copiado para a área de transferência!");
   };
 
   return (
@@ -185,18 +205,7 @@ export default function Editor() {
         >
           <FaImage />
         </button>
-        <select>
-          <option>Exportar como...</option>
-          <option value="html" onClick={() => handleExport("html")}>
-            HTML
-          </option>
-          <option value="md" onClick={() => handleExport("markdown")}>
-            Markdown
-          </option>
-          <option value="txt" onClick={() => handleExport("text")}>
-            Text
-          </option>
-        </select>
+       
       </div>
       {showFindReplace && (
         <FindReplaceModal

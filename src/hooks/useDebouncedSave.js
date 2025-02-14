@@ -1,6 +1,6 @@
 // src/hooks/useDebouncedSave.js
-import { useCallback, useEffect, useRef } from 'react';
-import { debounce } from 'lodash.debounce';
+import { useCallback, useEffect, useRef } from "react";
+import debounce from "lodash.debounce";
 
 export const useDebouncedSave = (saveAction, delay = 500) => {
   const debouncedSaveRef = useRef(
@@ -8,7 +8,7 @@ export const useDebouncedSave = (saveAction, delay = 500) => {
       try {
         await saveAction(content);
       } catch (error) {
-        console.error('Auto-save failed:', error);
+        console.error("Auto-save failed:", error);
       }
     }, delay)
   );

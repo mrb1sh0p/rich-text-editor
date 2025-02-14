@@ -9,6 +9,7 @@
     "axios": "^1.7.9",
     "dompurify": "^3.2.4",
     "focus-trap-react": "^11.0.3",
+    "lodash.debounce": "^4.0.8",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hotkeys-hook": "^4.6.1",

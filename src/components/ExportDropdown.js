@@ -1,4 +1,3 @@
-// src/components/ExportDropdown.js
 import React, { useState, useRef, useEffect } from "react";
 import { FiDownload, FiX } from "react-icons/fi";
 
@@ -6,7 +5,6 @@ const ExportDropdown = ({ onExport }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
 
-  // Fechar ao clicar fora
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {

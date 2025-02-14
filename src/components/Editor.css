@@ -195,3 +195,24 @@ th {
   color: #666;
   margin-top: 4px;
 }
+
+.highlight-match {
+  background-color: #ffeb3b;
+  border-radius: 3px;
+  box-shadow: 0 0 2px rgba(0,0,0,0.2);
+}
+
+.current-match {
+  background-color: #ffc107 !important;
+  position: relative;
+}
+
+.current-match::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: #ff5722;
+}

@@ -33,16 +33,15 @@ export default function Editor() {
   const [showFindReplace, setShowFindReplace] = useState(false);
   const [showTableInsert, setShowTableInsert] = useState(false);
 
-  useHotkeys("ctrl+shift+f, ctrl+shift+f", (e) => {
+  useHotkeys('ctrl+f, cmd+f', (e) => {
     e.preventDefault();
     setShowFindReplace(true);
+  }, {
+    enableOnFormTags: ['INPUT', 'TEXTAREA'],
+    preventDefault: true,
+    enableOnContentEditable: true
   });
-
-  useHotkeys("ctrl+shift+t, ctrl+shift+t", (e) => {
-    e.preventDefault();
-    setShowTableInsert(true);
-  });
-
+  
   useEffect(() => {
     const saved = localStorage.getItem("editorContent");
     if (saved) editorRef.current.innerHTML = saved;
@@ -207,6 +206,7 @@ export default function Editor() {
         <FindReplaceModal
           editorRef={editorRef}
           onClose={() => setShowFindReplace(false)}
+          saveState={saveState}
         />
       )}
       {showTableInsert && (

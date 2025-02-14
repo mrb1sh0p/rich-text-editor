@@ -1,4 +1,6 @@
 import React from "react";
+import { sanitizeHTML } from '../utils/sanitize';
+
 import {
   FaBold,
   FaItalic,
@@ -40,7 +42,7 @@ export default function Editor() {
   };
 
   const saveState = () => {
-    const content = editorRef.current.innerHTML;
+    const content = sanitizeHTML(editorRef.current.innerHTML);
     setHistory((prev) => ({
       stack: [...prev.stack.slice(0, prev.pointer + 1), content],
       pointer: prev.pointer + 1,

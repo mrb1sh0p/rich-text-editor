@@ -14,8 +14,24 @@ const ALLOWED_TAGS = [
   "em",
   "u",
   "br",
+  "table",
+  "thead",
+  "tbody",
+  "tr",
+  "th",
+  "td",
 ];
-const ALLOWED_ATTR = ["href", "src", "alt", "class", "data-*"];
+const ALLOWED_ATTR = [
+  "href",
+  "src",
+  "alt",
+  "class",
+  "data-*",
+  "scope",
+  "role",
+  "data-cell",
+  "class",
+];
 
 export const sanitizeHTML = (html) =>
   DOMPurify.sanitize(html, {

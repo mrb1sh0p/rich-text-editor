@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { sanitizeHTML } from "../utils/sanitize";
+
 const TableInsertModal = ({ editorRef, onClose }) => {
   const [rows, setRows] = useState(3);
   const [cols, setCols] = useState(3);

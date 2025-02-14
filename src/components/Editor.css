@@ -30,3 +30,11 @@
   .toolbar button.active {
     background: #e0e0e0;
   }
+
+  .editor-content[contenteditable="true"]:focus {
+    outline: 2px solid #0066cc;
+  }
+  
+  button:focus {
+    outline: 2px solid #0066cc;
+  }

@@ -59,18 +59,37 @@ export default function Editor() {
   return (
     <div className="editor-container">
       <div className="toolbar">
-        <button onClick={() => document.execCommand("bold")}>
+        <button
+          onClick={() => handleCommand("bold")}
+          aria-label="Negrito"
+          role="switch"
+          aria-checked={document.queryCommandState("bold")}
+        >
           <FaBold />
         </button>
-        <button onClick={() => document.execCommand("italic")}>
+
+        <button
+          onClick={() => handleCommand("italic")}
+          aria-label="Itálico"
+          role="switch"
+          aria-checked={document.queryCommandState("italic")}
+        >
           <FaItalic />
         </button>
-        <button onClick={() => document.execCommand("underline")}>
+        <button
+          onClick={() => handleCommand("underline")}
+          aria-label="Sublinhado"
+          role="switch"
+          aria-checked={document.queryCommandState("underline")}
+        >
           <FaUnderline />
         </button>
         <ImageUpload onSuccess={(url) => handleCommand("insertImage", url)} />
 
-        <select onChange={(e) => handleCommand("formatBlock", e.target.value)}>
+        <select
+          aria-label="Formatar bloco"
+          onChange={(e) => handleCommand("formatBlock", e.target.value)}
+        >
           <option value="p">Paragraph</option>
           <option value="h1">Heading 1</option>
           <option value="h2">Heading 2</option>

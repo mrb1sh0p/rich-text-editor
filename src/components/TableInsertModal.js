@@ -1,41 +1,39 @@
 import React, { useState } from "react";
-
+import { sanitizeHTML } from "../utils/sanitize";
 const TableInsertModal = ({ editorRef, onClose }) => {
   const [rows, setRows] = useState(3);
   const [cols, setCols] = useState(3);
   const [header, setHeader] = useState(true);
 
   const insertTable = () => {
-    const tableHTML = `
-        <p id="tableDescription" className="sr-only">
-            Configure as propriedades da tabela antes da inserção
-        </p>
+    const cleanHTML =  sanitizeHTML(`
         <table role="grid">
-            ${
-            header
-                ? `<thead><tr>${Array(cols)
-                    .fill('<th scope="col">Header</th>')
-                    .join("")}</tr></thead>`
-                : ""
-            }
-            <tbody>
-            ${Array(rows)
-                .fill(`<tr>${Array(cols).fill("<td>Content</td>").join("")}</tr>`)
-                .join("")}
-            </tbody>
-        </table>
-    `;
+      ${
+        header
+          ? `<thead><tr>${Array(cols)
+              .fill('<th scope="col">Header</th>')
+              .join("")}</tr></thead>`
+          : ""
+      }
+      <tbody>
+        ${Array(rows)
+          .fill()
+          .map(() => `<tr>${Array(cols).fill("<td><br></td>").join("")}</tr>`)
+          .join("")}
+      </tbody>
+    </table>
+    `);
 
-    document.execCommand("insertHTML", false, tableHTML);
+    editorRef.current.focus();
+    document.execCommand('insertHTML', false, cleanHTML);
     onClose();
   };
-
+  
   return (
     <div
       className="modal-overlay"
       role="dialog"
       aria-labelledby="tableInsertHeading"
-      aria-describedby="tableDescription"
     >
       <div className="modal-content">
         <h2 id="tableInsertHeading">Inserir tabela</h2>

@@ -1,6 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
+import { ErrorContext } from "../contexts/ErrorContext";
 import { sanitizeHTML } from "../utils/sanitize";
 import ImageUpload from "./ImageUpload";
+import {
+  exportAsHTML,
+  exportAsText,
+  exportAsMarkdown,
+} from "../utils/exporters";
 
 import {
   FaBold,
@@ -16,6 +22,7 @@ import "./Editor.css";
 
 export default function Editor() {
   const editorRef = React.useRef(null);
+  const { handleError } = useContext(ErrorContext);
 
   useEffect(() => {
     const saved = localStorage.getItem("editorContent");
@@ -54,6 +61,28 @@ export default function Editor() {
       pointer: prev.pointer + 1,
     }));
     localStorage.setItem("editorContent", content);
+  };
+
+  const handleExport = (format) => {
+    const content = editorRef.current.innerHTML;
+    let exported;
+
+    switch (format) {
+      case "html":
+        exported = exportAsHTML(content);
+        break;
+      case "md":
+        exported = exportAsMarkdown(content);
+        break;
+      case "txt":
+        exported = exportAsText(content);
+        break;
+      default:
+        handleError(new Error("Falha no envio da imagem..."));
+    }
+
+    navigator.clipboard.writeText(exported);
+    alert("Conteúdo copiado para a área de transferência!");
   };
 
   return (
@@ -124,6 +153,18 @@ export default function Editor() {
         >
           <FaImage />
         </button>
+        <select>
+          <option>Exportar como...</option>
+          <option value="html" onClick={() => handleExport("html")}>
+            HTML
+          </option>
+          <option value="md" onClick={() => handleExport("markdown")}>
+            Markdown
+          </option>
+          <option value="txt" onClick={() => handleExport("text")}>
+            Text
+          </option>
+        </select>
       </div>
 
       <div

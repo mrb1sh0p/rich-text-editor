@@ -55,7 +55,8 @@ export default function Editor() {
   };
 
   const saveState = () => {
-    const content = sanitizeHTML(editorRef.current.innerHTML);
+    const rawContent = editorRef.current.innerHTML;
+    const content = sanitizeHTML(rawContent);
     setHistory((prev) => ({
       stack: [...prev.stack.slice(0, prev.pointer + 1), content],
       pointer: prev.pointer + 1,

@@ -1,9 +1,9 @@
 import "./Editor.css";
 import React, { useEffect, useState, useCallback } from "react";
 import { useHotkeys } from "react-hotkeys-hook";
-import useDebouncedSave from "../hooks/useDebouncedSave";
+import { useDebouncedSave } from "../hooks/useDebouncedSave";
 import ExportDropdown from "./ExportDropdown";
-import { useError } from '../contexts/ErrorContext';
+import { useError } from "../contexts/ErrorContext";
 import { sanitizeHTML } from "../utils/sanitize";
 import TableInsertModal from "./TableInsertModal";
 // import ImageUpload from "./ImageUpload";
@@ -27,31 +27,60 @@ import {
   FaTable,
 } from "react-icons/fa";
 
+import { FiSave } from "react-icons/fi";
+
 export default function Editor() {
   const editorRef = React.useRef(null);
   const { handleError } = useError();
+  const [content, setContent] = useState("");
   const [showFindReplace, setShowFindReplace] = useState(false);
   const [showTableInsert, setShowTableInsert] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
-  useHotkeys('ctrl+f, cmd+f', (e) => {
-    e.preventDefault();
-    setShowFindReplace(true);
-  }, {
-    enableOnFormTags: ['INPUT', 'TEXTAREA'],
-    preventDefault: true,
-    enableOnContentEditable: true
-  });
+  useHotkeys(
+    "ctrl+f, cmd+f",
+    (e) => {
+      e.preventDefault();
+      setShowFindReplace(true);
+    },
+    {
+      enableOnFormTags: ["INPUT", "TEXTAREA"],
+      preventDefault: true,
+      enableOnContentEditable: true,
+    }
+  );
 
-  const saveToBackend = useCallback((content) => {
-    /* API call */
+  const saveToBackend = useCallback(async (content) => {
+    setIsSaving(true);
+    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simula delay
+    localStorage.setItem("editorContent", content);
+    setIsSaving(false);
   }, []);
 
-  const debouncedSave = useDebouncedSave(saveToBackend);
+  const debouncedSave = useDebouncedSave(saveToBackend, 500);
 
-  
+  const handleInput = (e) => {
+    const newContent = e.target.innerHTML;
+    setContent(newContent);
+    debouncedSave(newContent);
+  };
+
   useEffect(() => {
-    const saved = localStorage.getItem("editorContent");
-    if (saved) editorRef.current.innerHTML = saved;
+    const savedContent = localStorage.getItem("editorContent");
+    if (savedContent) {
+      setContent(savedContent);
+      editorRef.current.innerHTML = savedContent;
+    }
+
+    const handleBeforeUnload = (e) => {
+      if (isSaving) {
+        e.preventDefault();
+        e.returnValue = "Você tem alterações não salvas!";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
 
   const [history, setHistory] = React.useState({
@@ -205,7 +234,7 @@ export default function Editor() {
         >
           <FaImage />
         </button>
-        <div style={{marginLeft: "auto"}}>
+        <div style={{ marginLeft: "auto" }}>
           <ExportDropdown onExport={handleExport} />
         </div>
       </div>
@@ -222,12 +251,24 @@ export default function Editor() {
           onClose={() => setShowTableInsert(false)}
         />
       )}
+
+      <div className="status-bar">
+        {isSaving ? (
+          <span className="saving-indicator">
+            <FiSave className="spin-icon" /> Salvando...
+          </span>
+        ) : (
+          <span className="saved-indicator">
+            ✓ Todas as alterações foram salvas
+          </span>
+        )}
+      </div>
       <div
         ref={editorRef}
         className="editor-content"
         contentEditable
         suppressContentEditableWarning
-        onInput={saveState}
+        onInput={handleInput}
       ></div>
     </div>
   );

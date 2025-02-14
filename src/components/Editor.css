@@ -232,6 +232,37 @@ th {
   animation: slideIn 0.3s ease-out;
 }
 
+.status-bar {
+  padding: 8px 16px;
+  background: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+  font-size: 0.875rem;
+  color: #6c757d;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.saving-indicator {
+  color: #0d6efd;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.spin-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.saved-indicator {
+  color: #198754;
+}
+
 @keyframes slideIn {
   from { transform: translateX(100%); }
   to { transform: translateX(0); }

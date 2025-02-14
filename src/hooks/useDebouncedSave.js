@@ -1,23 +1,23 @@
-import { useEffect, useCallback } from 'react';
-import { useError } from '../contexts/ErrorContext';
+// src/hooks/useDebouncedSave.js
+import { useCallback, useEffect, useRef } from 'react';
+import { debounce } from 'lodash.debounce';
 
 export const useDebouncedSave = (saveAction, delay = 500) => {
-  const { handleError } = useError();
-  
-  const debouncedSave = useCallback(
-    _.debounce((content) => {
+  const debouncedSaveRef = useRef(
+    debounce(async (content) => {
       try {
-        saveAction(content);
+        await saveAction(content);
       } catch (error) {
-        handleError(error);
+        console.error('Auto-save failed:', error);
       }
-    }, delay),
-    [saveAction, delay]
+    }, delay)
   );
 
   useEffect(() => {
-    return () => debouncedSave.cancel();
+    return () => debouncedSaveRef.current.cancel();
   }, []);
 
-  return debouncedSave;
+  return useCallback((content) => {
+    debouncedSaveRef.current(content);
+  }, []);
 };

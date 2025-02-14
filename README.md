@@ -21,6 +21,13 @@ Um Rich Text básico (até o momento) construido com React, incluindo formataç�
   - Feedback visual de formatação ativa
   - Layout responsivo
 
+## Ultimas atualizações
+- Upload de imagens via API
+- Sistema de tratamento de erros
+- Acessibilidade WCAG 2.1
+- Exportação para múltiplos formatos
+- Sanitização segura de conteúdo
+
 ## 🛠️ Estrutura do Projeto
 
 ```bash
@@ -59,10 +66,3 @@ git push origin minha-feature
 
 ## 📄 Licença
 Este projeto está licenciado sob a MIT License
-
-## ➡️ Próximos Passos
-- Adicionar suporte a tabelas
-- Implementar upload de imagens
-- Adicionar pesquisa e substituição
-- Melhorar acessibilidade
-- Suporte a exportação em Markdown

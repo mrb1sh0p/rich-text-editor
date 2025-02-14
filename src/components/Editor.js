@@ -1,5 +1,5 @@
-import React from "react";
-import { sanitizeHTML } from '../utils/sanitize';
+import React, { useEffect } from "react";
+import { sanitizeHTML } from "../utils/sanitize";
 
 import {
   FaBold,
@@ -15,6 +15,11 @@ import "./Editor.css";
 
 export default function Editor() {
   const editorRef = React.useRef(null);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("editorContent");
+    if (saved) editorRef.current.innerHTML = saved;
+  }, []);
 
   const [history, setHistory] = React.useState({
     stack: [""],
@@ -47,6 +52,7 @@ export default function Editor() {
       stack: [...prev.stack.slice(0, prev.pointer + 1), content],
       pointer: prev.pointer + 1,
     }));
+    localStorage.setItem("editorContent", content);
   };
 
   return (

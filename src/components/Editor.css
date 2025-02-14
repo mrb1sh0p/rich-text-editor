@@ -1,0 +1,12 @@
+.editor-container {
+    max-width: 800px;
+    margin: 20px auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.editor-content {
+    min-height: 300px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    outline: none;
+}

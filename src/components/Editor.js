@@ -1,7 +1,11 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect, useContext, useState } from "react";
 import { ErrorContext } from "../contexts/ErrorContext";
 import { sanitizeHTML } from "../utils/sanitize";
 import ImageUpload from "./ImageUpload";
+import FindReplaceModal from "./FindReplaceModal";
+
+import "./Editor.css";
+
 import {
   exportAsHTML,
   exportAsText,
@@ -16,13 +20,13 @@ import {
   FaRedo,
   FaLink,
   FaImage,
+  FaSearch,
 } from "react-icons/fa";
-
-import "./Editor.css";
 
 export default function Editor() {
   const editorRef = React.useRef(null);
   const { handleError } = useContext(ErrorContext);
+  const [showFindReplace, setShowFindReplace] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem("editorContent");
@@ -86,9 +90,17 @@ export default function Editor() {
     alert("Conteúdo copiado para a área de transferência!");
   };
 
+  
+
   return (
     <div className="editor-container">
       <div className="toolbar">
+        <button
+          onClick={() => setShowFindReplace(true)}
+          aria-label="Localizar e substituir"
+        >
+          <FaSearch />
+        </button>
         <button
           onClick={() => handleCommand("bold")}
           aria-label="Negrito"
@@ -167,7 +179,14 @@ export default function Editor() {
           </option>
         </select>
       </div>
-
+      {
+        showFindReplace && (
+          <FindReplaceModal
+            editorRef={editorRef}
+            onClose={() => setShowFindReplace(false)}
+          />
+        )
+      }
       <div
         ref={editorRef}
         className="editor-content"
@@ -176,5 +195,6 @@ export default function Editor() {
         onInput={saveState}
       ></div>
     </div>
+    
   );
 }

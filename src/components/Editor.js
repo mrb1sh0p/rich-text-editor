@@ -1,4 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
+import { useHotkeys } from 'react-hotkeys-hook';
 import { ErrorContext } from "../contexts/ErrorContext";
 import { sanitizeHTML } from "../utils/sanitize";
 import TableInsertModal from "./TableInsertModal";
@@ -30,6 +31,16 @@ export default function Editor() {
   const { handleError } = useContext(ErrorContext);
   const [showFindReplace, setShowFindReplace] = useState(false);
   const [showTableInsert, setShowTableInsert] = useState(false);
+
+  useHotkeys('ctrl+shift+f, ctrl+shift+f', (e) => {
+    e.preventDefault();
+    setShowFindReplace(true);
+  });
+  
+  useHotkeys('ctrl+shift+t, ctrl+shift+t', (e) => {
+    e.preventDefault();
+    setShowTableInsert(true);
+  });
 
   useEffect(() => {
     const saved = localStorage.getItem("editorContent");

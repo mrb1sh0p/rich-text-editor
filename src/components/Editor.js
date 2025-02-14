@@ -61,6 +61,24 @@ export default function Editor() {
         >
           ↪️ Redo
         </button>
+
+        <button
+          onClick={() => {
+            const url = prompt("Enter URL:");
+            if (url) handleCommand("createLink", url);
+          }}
+        >
+          🔗 Link
+        </button>
+
+        <button
+          onClick={() => {
+            const url = prompt("Enter image URL:");
+            if (url) handleCommand("insertImage", url);
+          }}
+        >
+          🖼️ Image
+        </button>
       </div>
 
       <div

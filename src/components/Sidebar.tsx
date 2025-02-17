@@ -55,7 +55,6 @@ const Sidebar: React.FC<SidebarProps> = ({
   return (
     <div className="sidebar">
       <div className="sidebar-header">
-        <h3>{t("sidebar.title")}</h3>
         <SearchBar onSearch={setSearchQuery} />
       </div>
 

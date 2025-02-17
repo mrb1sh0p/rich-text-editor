@@ -8,8 +8,18 @@ import { ErrorProvider } from "./contexts/ErrorContext";
 import Editor from "./components/Editor";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Sidebar from "./components/Sidebar";
+
+interface Note {
+  id: string;
+  title: string;
+  content: string;
+  updatedAt: Date;
+}
 
 function App() {
+  const [currentNote, setCurrentNote] = useState<Note | null>(null);
+
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme
@@ -36,7 +46,11 @@ function App() {
           <div className="App">
             <Header darkMode={darkMode} toggleTheme={toggleTheme} />
             <main className="main-content">
-              <Editor />
+              <Sidebar
+                onSelectNote={setCurrentNote}
+                currentNote={currentNote}
+              />
+              <Editor note={currentNote} />
             </main>
             <Footer />
           </div>

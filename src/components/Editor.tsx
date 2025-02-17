@@ -14,7 +14,18 @@ interface HistoryState {
   pointer: number;
 }
 
-export default function Editor() {
+interface Note {
+  id: string;
+  title: string;
+  content: string;
+  updatedAt: Date;
+}
+
+interface EditorProps {
+  note?: Note | null;
+}
+
+export default function Editor({ note }: EditorProps) {
   const editorRef = useRef<HTMLDivElement>(null!);
   const { t } = useTranslation("editor");
   const [showFindReplace, setShowFindReplace] = useState(false);
@@ -63,6 +74,10 @@ export default function Editor() {
       editorRef.current.innerHTML = savedContent;
     }
 
+    if (note && editorRef.current) {
+      editorRef.current.innerHTML = note.content;
+    }
+
     const handleBeforeUnload = (e: {
       preventDefault: () => void;
       returnValue: string;
@@ -76,7 +91,7 @@ export default function Editor() {
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [note]);
 
   return (
     <div className="editor-container">

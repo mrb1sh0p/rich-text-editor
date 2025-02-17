@@ -1,10 +1,15 @@
 {
-    "header": {
-      "title": "Richly",
-      "switch_language": "Change Language"
-    },
-    "footer": {
-      "copyright": "© {{year}} All rights reserved"
-    }
+  "header": {
+    "title": "Richly",
+    "switch_language": "Change Language"
+  },
+  "footer": {
+    "copyright": "© {{year}} All rights reserved"
+  },
+  "sidebar": {
+    "title": "You note",
+    "new_note": "New Note",
+    "untitled": "Untitled",
+    "search_placeholder": "Search notes..."
   }
-  
+}

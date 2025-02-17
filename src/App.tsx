@@ -1,14 +1,14 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { ErrorProvider } from "./contexts/ErrorContext";
+import Editor from "./components/Editor";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Editor from "./components/Editor";
 import "./theme.css";
 import "./App.css";
 
 function App() {
-  const mockServiceUrl = "https://mockerrorapi.com/log";
+  const mockServiceUrl = "https://mockerrorapi.com/log"; // ver depois
   const [darkMode, setDarkMode] = useState(() => {
     const savedTheme = localStorage.getItem("theme");
     return savedTheme
@@ -25,7 +25,7 @@ function App() {
     const flushErrors = async () => {
       const errors = JSON.parse(localStorage.getItem("errorQueue") || "[]");
       if (errors.length > 0) {
-        await Promise.all(errors.map((e) => axios.post(mockServiceUrl, e)));
+        await Promise.all(errors.map((e: any) => axios.post(mockServiceUrl, e)));
         localStorage.removeItem("errorQueue");
       }
     };
@@ -41,7 +41,9 @@ function App() {
     <ErrorProvider>
       <div className="App">
         <Header darkMode={darkMode} toggleTheme={toggleTheme} />
-        <Editor />
+        <main className="main-content">
+          <Editor />
+        </main>
         <Footer />
       </div>
     </ErrorProvider>

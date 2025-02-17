@@ -1,8 +1,13 @@
+import { useTranslation } from "react-i18next";
+
 const Footer = () => {
+  const { t } = useTranslation("common");
+  const year = new Date().getFullYear();
+
   return (
     <footer className="app-footer">
       <div className="footer-content">
-        <p>© 2024 Text Editor - v1.0.0</p>
+        <p>{t("footer.copyright", { year })}</p>
         <div className="footer-links">
           <a href="/docs">Documentação</a>
           <a href="/support">Suporte</a>

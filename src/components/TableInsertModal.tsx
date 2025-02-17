@@ -1,18 +1,24 @@
+import "./css/Modal.css";
 import React, { useState } from "react";
 import { sanitizeHTML } from "../utils/sanitize";
+import { useTranslation } from "react-i18next";
 
 interface TableInsertModalProps {
   editorRef: React.RefObject<HTMLDivElement | null>;
   onClose: () => void;
 }
 
-const TableInsertModal: React.FC<TableInsertModalProps> = ({ editorRef, onClose }) => {
-  const [rows, setRows] = useState(3);
-  const [cols, setCols] = useState(3);
-  const [header, setHeader] = useState(true);
+const TableInsertModal: React.FC<TableInsertModalProps> = ({
+  editorRef,
+  onClose,
+}) => {
+  const [rows, setRows] = useState(0);
+  const [cols, setCols] = useState(0);
+  const [header, setHeader] = useState(false);
+  const { t } = useTranslation("editor");
 
   const insertTable = () => {
-    const cleanHTML =  sanitizeHTML(`
+    const cleanHTML = sanitizeHTML(`
         <table role="grid">
       ${
         header
@@ -32,10 +38,10 @@ const TableInsertModal: React.FC<TableInsertModalProps> = ({ editorRef, onClose 
 
     if (!editorRef.current) return;
     editorRef.current.focus();
-    document.execCommand('insertHTML', false, cleanHTML);
+    document.execCommand("insertHTML", false, cleanHTML);
     onClose();
   };
-  
+
   return (
     <div
       className="modal-overlay"
@@ -43,10 +49,10 @@ const TableInsertModal: React.FC<TableInsertModalProps> = ({ editorRef, onClose 
       aria-labelledby="tableInsertHeading"
     >
       <div className="modal-content">
-        <h2 id="tableInsertHeading">Inserir tabela</h2>
+        <h2 id="tableInsertHeading">{t("table.insertTable")}</h2>
 
         <div className="form-group">
-          <label htmlFor="rowsInput">Linhas:</label>
+          <label htmlFor="rowsInput">{t("table.lines")}:</label>
           <input
             id="rowsInput"
             type="number"
@@ -57,7 +63,7 @@ const TableInsertModal: React.FC<TableInsertModalProps> = ({ editorRef, onClose 
         </div>
 
         <div className="form-group">
-          <label htmlFor="colsInput">Colunas:</label>
+          <label htmlFor="colsInput">{t("table.columns")}:</label>
           <input
             id="colsInput"
             type="number"
@@ -70,17 +76,22 @@ const TableInsertModal: React.FC<TableInsertModalProps> = ({ editorRef, onClose 
         <div className="form-group">
           <label>
             <input
+              id="checkInput"
               type="checkbox"
               checked={header}
               onChange={(e) => setHeader(e.target.checked)}
-            />
-            Cabeçalho
+            />{" "}
+            {t("table.header")}
           </label>
         </div>
 
         <div className="button-group">
-          <button onClick={insertTable}>Inserir</button>
-          <button onClick={onClose}>Cancelar</button>
+          <button id="insert" onClick={insertTable}>
+            {t("table.insert")}
+          </button>
+          <button id="cancel" onClick={onClose}>
+            {t("table.cancel")}
+          </button>
         </div>
       </div>
     </div>

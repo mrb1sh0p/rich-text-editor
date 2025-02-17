@@ -1,0 +1,27 @@
+{
+  "toolbar": {
+    "bold": "bold",
+    "italic": "italic",
+    "underline": "underline",
+    "paragraph": "Paragraph",
+    "heading": "Heading",
+    "enterLink": "Enter link",
+    "enterImage": "Insert image link"
+  },
+  "table": {
+    "insertTable": "Insert table",
+    "lines": "Lines",
+    "header": "Header",
+    "columns": "Columns",
+    "insert": "Insert",
+    "cancel": "Cancel"
+  },
+  "default": {
+    "export": "Export as",
+    "text": "Simple Text"
+  },
+  "editor": {
+    "salving": "salving",
+    "salve": "All changes have been saved"
+  }
+}

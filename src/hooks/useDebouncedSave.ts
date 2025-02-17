@@ -17,7 +17,8 @@ export const useDebouncedSave = (
   );
 
   useEffect(() => {
-    return () => debouncedSaveRef.current.cancel();
+    const debouncedSave = debouncedSaveRef.current;
+    return () => debouncedSave.cancel();
   }, []);
 
   return useCallback((content: string) => {

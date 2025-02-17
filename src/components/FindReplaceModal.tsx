@@ -16,7 +16,7 @@ const FindReplaceModal: React.FC<FindReplaceModalProps> = ({
   const [findText, setFindText] = useState("");
   const [replaceText, setReplaceText] = useState("");
   const [matches, setMatches] = useState<{ node: Node; offset: number }[]>([]);
-  const [currentMatch, setCurrentMatch] = useState(-1);
+  const [, setCurrentMatch] = useState(-1);
   const firstInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {

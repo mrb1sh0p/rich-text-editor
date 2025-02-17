@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { ErrorProvider } from "./contexts/ErrorContext";
 import Editor from "./components/Editor";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
+// import Footer from "./components/Footer";
 import "./theme.css";
 import "./App.css";
 

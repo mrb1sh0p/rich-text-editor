@@ -10,7 +10,7 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme }) => {
   return (
     <header className="app-header">
       <div className="header-content">
-        <h1>Text Editor Pro</h1>
+        <h1>Richly</h1>
         <button 
           onClick={toggleTheme}
           className="theme-toggle"

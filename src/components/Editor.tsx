@@ -99,17 +99,6 @@ export default function Editor() {
           onClose={() => setShowTableInsert(false)}
         />
       )}
-      <div className="status-bar">
-        {isSaving ? (
-          <span className="saving-indicator">
-            <FiSave className="spin-icon" /> Salvando...
-          </span>
-        ) : (
-          <span className="saved-indicator">
-            ✓ Todas as alterações foram salvas
-          </span>
-        )}
-      </div>
       <div
         ref={editorRef}
         className="editor-content"
@@ -117,6 +106,17 @@ export default function Editor() {
         suppressContentEditableWarning
         onInput={handleInput}
       ></div>
+      <div className="status-bar">
+        {isSaving ? (
+          <span className="saving-indicator">
+            <FiSave className="spin-icon" /> Salvando...
+          </span>
+        ) : (
+          <span className="saved-indicator">
+            <FiSave /> Todas as alterações foram salvas
+          </span>
+        )}
+      </div>
     </div>
   );
 }

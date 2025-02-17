@@ -180,7 +180,7 @@ export default function Toolbar({
 
       <button
         onClick={() => {
-          const url = prompt("Enter URL:");
+          const url = prompt(t("toolbar.enterLink"));
           if (url) handleCommand("createLink", url);
         }}
       >
@@ -189,7 +189,7 @@ export default function Toolbar({
 
       <button
         onClick={() => {
-          const url = prompt("Enter image URL:");
+          const url = prompt(t("toolbar.enterImage"));
           if (url) handleCommand("insertImage", url);
         }}
       >

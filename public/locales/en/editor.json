@@ -4,7 +4,9 @@
     "italic": "italic",
     "underline": "underline",
     "paragraph": "Paragraph",
-    "heading": "Heading"
+    "heading": "Heading",
+    "enterLink": "Enter link",
+    "enterImage": "Insert image link"
   },
   "commands": {
     "save": "Save",

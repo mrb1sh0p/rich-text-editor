@@ -13,7 +13,6 @@ const LanguageSwitcher: React.FC = () => {
     <select onChange={(e) => changeLanguage(e.target.value)}>
       <option value="en">English</option>
       <option value="pt">Português</option>
-      <option value="es">Espanhol</option>
     </select>
   );
 };

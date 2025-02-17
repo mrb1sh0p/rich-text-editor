@@ -1,43 +1,105 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#000000" />
-    <meta
-      name="description"
-      content="Web site created using create-react-app"
-    />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
-    -->
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <!--
-      Notice the use of %PUBLIC_URL% in the tags above.
-      It will be replaced with the URL of the `public` folder during the build.
-      Only files inside the `public` folder can be referenced from the HTML.
+<html lang="pt-BR" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="theme-color" content="#2563eb">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- Primary Meta Tags -->
+    <title>Richly - Editor de Texto Avançado Online</title>
+    <meta name="title" content="Richly - Editor de Texto Avançado Online">
+    <meta name="description" content="Crie e formate documentos profissionais com nosso editor rich text online. Suporte a markdown, exportação para PDF e colaboração em tempo real.">
+    <meta name="keywords" content="editor de texto, rich text, markdown, documentos online, formatar texto, exportar PDF">
+    <meta name="author" content="Sua Empresa">
+    <meta name="robots" content="index, follow">
 
-      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
-      work correctly both with client-side routing and a non-root public URL.
-      Learn how to configure a non-root public URL by running `npm run build`.
-    -->
-    <title>Richly</title>
-  </head>
-  <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://seusite.com/">
+    <meta property="og:title" content="Richly - Editor de Texto Avançado Online">
+    <meta property="og:description" content="Crie e formate documentos profissionais com nosso editor rich text online">
+    <meta property="og:image" content="%PUBLIC_URL%/og-image.jpg">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://seusite.com/">
+    <meta property="twitter:title" content="Richly - Editor de Texto Avançado Online">
+    <meta property="twitter:description" content="Crie e formate documentos profissionais com nosso editor rich text online">
+    <meta property="twitter:image" content="%PUBLIC_URL%/twitter-image.jpg">
+
+    <!-- Favicon Moderno -->
+    <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/favicon-16x16.png">
+    <link rel="manifest" href="%PUBLIC_URL%/site.webmanifest">
+    <link rel="mask-icon" href="%PUBLIC_URL%/safari-pinned-tab.svg" color="#2563eb">
+    <meta name="msapplication-TileColor" content="#2563eb">
+    
+    <!-- Pré-carregamento de fontes -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" as="style">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- PWA -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
+    
+    <!-- Fallback para navegadores sem JavaScript -->
+    <noscript>
+        <style>
+            #loading { display: none !important; }
+            #noscript-warning {
+                display: block;
+                padding: 1rem;
+                text-align: center;
+                background: #ffebee;
+                color: #b71c1c;
+            }
+        </style>
+        <div id="noscript-warning">
+            <strong>JavaScript necessário:</strong> Por favor, habilite o JavaScript para usar todas as funcionalidades do Richly.
+        </div>
+    </noscript>
+
+    <!-- Content Security Policy (Exemplo básico) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https: 'unsafe-inline' 'unsafe-eval';
+        img-src 'self' https: data:;
+        font-src 'self' https: data:;
+        style-src 'self' https: 'unsafe-inline';
+        script-src 'self' https: 'unsafe-inline' 'unsafe-eval';">
+
+    <!-- App Links -->
+    <meta property="al:web:url" content="https://seusite.com/">
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div id="loading">
+        <div class="loading-spinner"></div>
+        <p>Carregando o Editor...</p>
+    </div>
+    
     <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
-
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+    <!-- App-ads.txt verification -->
+    <meta name="google-adsense-account" content="ca-pub-XXXXXXXXXXXXXXXX">
+    <link rel="app-ads.txt" href="%PUBLIC_URL%/app-ads.txt">
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Richly",
+        "description": "Editor de texto avançado online com suporte a formatação rich text",
+        "applicationCategory": "Productivity",
+        "operatingSystem": "Web",
+        "url": "https://seusite.com/",
+        "screenshot": "%PUBLIC_URL%/screenshot.jpg",
+        "offers": {
+            "@type": "Offer",
+            "price": "0.00",
+            "priceCurrency": "BRL"
+        }
+    }
+    </script>
+</body>
 </html>

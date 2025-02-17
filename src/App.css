@@ -71,7 +71,3 @@
   gap: 0.5rem;
 }
 
-.modal-content {
-  background-color: var(--bg-color);
-  border: 1px solid var(--border-color);
-}

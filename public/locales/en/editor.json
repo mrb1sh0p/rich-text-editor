@@ -8,6 +8,14 @@
     "enterLink": "Enter link",
     "enterImage": "Insert image link"
   },
+  "table": {
+    "insertTable": "Insert table",
+    "lines": "Lines",
+    "header": "Header",
+    "columns": "Columns",
+    "insert": "Insert",
+    "cancel": "Cancel"
+  },
   "commands": {
     "save": "Save",
     "export": "Export as"

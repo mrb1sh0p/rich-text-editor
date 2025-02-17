@@ -11,5 +11,9 @@
     "new_note": "Nova Nota",
     "untitled": "Sem Título",
     "search_placeholder": "Pesquisar notas..."
+  },
+  "empty_state": {
+    "title": "Nenhuma nota selecionada",
+    "message": "Selecione uma nota existente na sidebar ou crie uma nova nota para começar a editar."
   }
 }

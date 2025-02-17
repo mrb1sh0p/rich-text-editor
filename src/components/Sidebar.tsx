@@ -1,9 +1,8 @@
-import "./css/Sidebar.css"
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FiX } from "react-icons/fi";
 import SearchBar from "./SearchBar";
-
+import "./css/Sidebar.css";
 
 interface Note {
   id: string;
@@ -12,16 +11,27 @@ interface Note {
   updatedAt: Date;
 }
 
-const Sidebar: React.FC<{
-  onSelectNote: (note: Note) => void;
-  currentNote?: Note | null;
-}> = ({ onSelectNote, currentNote }) => {
-  const [searchQuery, setSearchQuery] = useState("");
+interface SidebarProps {
+  notes: Note[];
+  currentNote: Note | null;
+  onSelectNote: (note: Note) => void; 
+  onCreateNote: () => void;
+  onUpdateNote: (id: string, newTitle: string) => void;
+  onDeleteNote: (id: string) => void;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({
+  notes,
+  currentNote,
+  onSelectNote,
+  onCreateNote,
+  onUpdateNote,
+  onDeleteNote,
+}) => {
   const { t } = useTranslation("common");
-  const [notes, setNotes] = useState<Note[]>(() => {
-    const saved = localStorage.getItem("notes");
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [searchQuery, setSearchQuery] = useState("");
+  const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
+  const [editedTitle, setEditedTitle] = useState("");
 
   const filteredNotes = notes.filter(
     (note) =>
@@ -29,39 +39,32 @@ const Sidebar: React.FC<{
       note.content.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const createNewNote = () => {
-    const newNote: Note = {
-      id: Date.now().toString(),
-      title: t("sidebar.untitled"),
-      content: "",
-      updatedAt: new Date(),
-    };
-
-    setNotes((prev) => {
-      const updated = [newNote, ...prev];
-      localStorage.setItem("notes", JSON.stringify(updated));
-      return updated;
-    });
-
-    onSelectNote(newNote);
+  const handleStartEditing = (note: Note) => {
+    setEditingNoteId(note.id);
+    setEditedTitle(note.title);
   };
 
-  const deleteNote = (id: string) => {
-    setNotes((prev) => {
-      const updated = prev.filter((n) => n.id !== id);
-      localStorage.setItem("notes", JSON.stringify(updated));
-      return updated;
-    });
+  const handleSaveTitle = (id: string) => {
+    if (editedTitle.trim()) {
+      onUpdateNote(id, editedTitle.trim());
+    }
+    setEditingNoteId(null);
+    setEditedTitle("");
   };
 
   return (
     <div className="sidebar">
       <div className="sidebar-header">
+        <h3>{t("sidebar.title")}</h3>
         <SearchBar onSearch={setSearchQuery} />
       </div>
 
+      <button onClick={onCreateNote} className="new-note-btn">
+        {t("sidebar.new_note")}
+      </button>
+
       <div className="notes-list">
-        {notes.map((note) => (
+        {filteredNotes.map((note) => (
           <div
             key={note.id}
             className={`note-item ${
@@ -69,24 +72,43 @@ const Sidebar: React.FC<{
             }`}
             onClick={() => onSelectNote(note)}
           >
-            <h4>{note.title}</h4>
-            <small>{new Date(note.updatedAt).toLocaleDateString()}</small>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                deleteNote(note.id);
-              }}
-              className="delete-btn"
-            >
-              <FiX />
-            </button>
+            <div className="note-header">
+              {editingNoteId === note.id ? (
+                <input
+                  type="text"
+                  value={editedTitle}
+                  onChange={(e) => setEditedTitle(e.target.value)}
+                  onBlur={() => handleSaveTitle(note.id)}
+                  onKeyDown={(e) =>
+                    e.key === "Enter" && handleSaveTitle(note.id)
+                  }
+                  autoFocus
+                />
+              ) : (
+                <h4 onDoubleClick={() => handleStartEditing(note)}>
+                  {note.title}
+                </h4>
+              )}
+              <button
+                className="delete-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDeleteNote(note.id);
+                }}
+              >
+                <FiX />
+              </button>
+            </div>
+            <small>
+              {new Date(note.updatedAt).toLocaleDateString(undefined, {
+                day: "numeric",
+                month: "short",
+                year: "numeric",
+              })}
+            </small>
           </div>
         ))}
       </div>
-
-      <button onClick={createNewNote} className="new-note-btn">
-        {t("sidebar.new_note")}
-      </button>
     </div>
   );
 };

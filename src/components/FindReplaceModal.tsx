@@ -5,13 +5,11 @@ import { useHotkeys } from "react-hotkeys-hook";
 interface FindReplaceModalProps {
   editorRef: React.RefObject<HTMLDivElement | null>;
   onClose: () => void;
-  saveState: () => void;
 }
 
 const FindReplaceModal: React.FC<FindReplaceModalProps> = ({
   editorRef,
   onClose,
-  saveState,
 }) => {
   const [findText, setFindText] = useState("");
   const [replaceText, setReplaceText] = useState("");
@@ -62,7 +60,6 @@ const FindReplaceModal: React.FC<FindReplaceModalProps> = ({
     editorRef.current.innerHTML = newContent;
     setMatches([]);
     setCurrentMatch(-1);
-    saveState();
   };
 
   return (

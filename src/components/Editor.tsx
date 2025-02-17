@@ -190,7 +190,7 @@ export default function Editor() {
   };
 
   return (
-    <div className="editor-container" onKeyDown={handleTableKeyNavigation}>
+    <div className="editor-container">
       <div className="toolbar">
         <button
           onClick={() => setShowFindReplace(true)}
@@ -274,6 +274,7 @@ export default function Editor() {
           <ExportDropdown onExport={handleExport} />
         </div>
       </div>
+      
       {showFindReplace && (
         <FindReplaceModal
           editorRef={editorRef}
@@ -281,6 +282,7 @@ export default function Editor() {
           saveState={saveState}
         />
       )}
+
       {showTableInsert && (
         <TableInsertModal
           editorRef={editorRef}

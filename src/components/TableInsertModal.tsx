@@ -1,4 +1,4 @@
-import "./Modal.css";
+import "./css/Modal.css";
 import React, { useState } from "react";
 import { sanitizeHTML } from "../utils/sanitize";
 import { useTranslation } from "react-i18next";

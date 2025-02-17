@@ -1,9 +1,9 @@
-import "./Editor.css";
+import "./css/Editor.css";
 import React, { useState, useRef, useCallback, useEffect } from "react";
+import { FiSave } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 
 import { useDebouncedSave } from "../hooks/useDebouncedSave";
-
-import { FiSave } from "react-icons/fi";
 import Toolbar from "./Toolbar";
 import FindReplaceModal from "./FindReplaceModal";
 import TableInsertModal from "./TableInsertModal";
@@ -16,6 +16,7 @@ interface HistoryState {
 
 export default function Editor() {
   const editorRef = useRef<HTMLDivElement>(null);
+  const { t } = useTranslation("editor");
   const [showFindReplace, setShowFindReplace] = useState(false);
   const [showTableInsert, setShowTableInsert] = useState(false);
   const [, setContent] = useState("");
@@ -109,11 +110,11 @@ export default function Editor() {
       <div className="status-bar">
         {isSaving ? (
           <span className="saving-indicator">
-            <FiSave className="spin-icon" /> Salvando...
+            <FiSave className="spin-icon" /> {t("editor.salving")}...
           </span>
         ) : (
           <span className="saved-indicator">
-            <FiSave /> Todas as alterações foram salvas
+            <FiSave /> {t("editor.salve")}
           </span>
         )}
       </div>

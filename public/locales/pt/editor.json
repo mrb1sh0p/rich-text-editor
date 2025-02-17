@@ -16,8 +16,12 @@
     "insert": "Inserir",
     "cancel": "Cancelar"
   },
-  "commands": {
-    "save": "Salvar",
-    "export": "Exportar"
+  "default": {
+    "export": "Exportar",
+    "text": "Texto simples"
+  },
+  "editor": {
+    "salving": "salvando",
+    "salve": " Todas as alterações foram salvas"
   }
 }

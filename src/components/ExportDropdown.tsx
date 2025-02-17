@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FiDownload, FiX } from "react-icons/fi";
+import { useTranslation } from "react-i18next";
 
 interface ExportDropdownProps {
   onExport: (format: string) => void;
@@ -7,11 +8,15 @@ interface ExportDropdownProps {
 
 const ExportDropdown: React.FC<ExportDropdownProps> = ({ onExport }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { t } = useTranslation("editor");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
         setIsOpen(false);
       }
     };
@@ -29,22 +34,11 @@ const ExportDropdown: React.FC<ExportDropdownProps> = ({ onExport }) => {
         aria-expanded={isOpen}
       >
         <FiDownload />
-        Exportar
+        {t("default.export")}
       </button>
 
       {isOpen && (
         <div className="dropdown-menu" role="menu">
-          <div className="menu-header">
-            <h4>Exportar como:</h4>
-            <button
-              className="close-btn"
-              onClick={() => setIsOpen(false)}
-              aria-label="Fechar menu"
-            >
-              <FiX />
-            </button>
-          </div>
-
           <div className="menu-items">
             <button
               className="menu-item"
@@ -54,8 +48,8 @@ const ExportDropdown: React.FC<ExportDropdownProps> = ({ onExport }) => {
               }}
               role="menuitem"
             >
-              <span>HTML Document</span>
-              <small>.html - Formato web</small>
+              <span>HTML</span>
+              <small>.html</small>
             </button>
 
             <button
@@ -67,7 +61,7 @@ const ExportDropdown: React.FC<ExportDropdownProps> = ({ onExport }) => {
               role="menuitem"
             >
               <span>Markdown</span>
-              <small>.md - Para documentação</small>
+              <small>.md</small>
             </button>
 
             <button
@@ -78,8 +72,8 @@ const ExportDropdown: React.FC<ExportDropdownProps> = ({ onExport }) => {
               }}
               role="menuitem"
             >
-              <span>Texto simples</span>
-              <small>.txt - Sem formatação</small>
+              <span>{t("default.text")}</span>
+              <small>.txt</small>
             </button>
           </div>
         </div>

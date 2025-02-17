@@ -44,7 +44,7 @@ function App() {
         <main className="main-content">
           <Editor />
         </main>
-        <Footer />
+        {/* <Footer /> */}
       </div>
     </ErrorProvider>
   );

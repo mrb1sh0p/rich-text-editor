@@ -74,7 +74,7 @@ export default function Editor() {
 
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, []);
+  }, [isSaving]);
 
   return (
     <div className="editor-container">

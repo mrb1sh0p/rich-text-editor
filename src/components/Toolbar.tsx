@@ -1,5 +1,5 @@
 import "./css/Toolbar.css";
-import { useRef, useCallback } from "react";
+import { useCallback } from "react";
 import ExportDropdown from "./ExportDropdown";
 import { useError } from "../contexts/ErrorContext";
 import { sanitizeHTML } from "../utils/sanitize";
@@ -31,32 +31,30 @@ interface HistoryState {
 interface ToolbarProps {
   setHistory: React.Dispatch<React.SetStateAction<HistoryState>>;
   history: HistoryState;
-  saveState: () => void;
   setShowFindReplace: React.Dispatch<React.SetStateAction<boolean>>;
   setShowTableInsert: React.Dispatch<React.SetStateAction<boolean>>;
+  editorRef: React.RefObject<HTMLDivElement>;
 }
 
 export default function Toolbar({
-  saveState,
   setHistory,
   setShowFindReplace,
   setShowTableInsert,
+  editorRef,
   history,
 }: ToolbarProps) {
   const { t } = useTranslation("editor");
-  const editorRef = useRef<HTMLDivElement>(null);
   const { handleError } = useError();
 
   const handleCommand = useCallback(
     (command: string, value?: string | null) => {
       try {
         document.execCommand(command, false, value ?? undefined);
-        saveState();
       } catch (error) {
         handleError(error as Error);
       }
     },
-    [saveState, handleError]
+    [handleError]
   );
 
   const handleUndo = () => {

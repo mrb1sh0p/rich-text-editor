@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FiDownload, FiX } from "react-icons/fi";
+import { FiDownload } from "react-icons/fi";
 import { useTranslation } from "react-i18next";
 
 interface ExportDropdownProps {

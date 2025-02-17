@@ -1,96 +1,127 @@
-import "./css/Editor.css";
-import React, { useState, useRef, useCallback, useEffect } from "react";
-import { FiSave } from "react-icons/fi";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-
+import { FiSave } from "react-icons/fi";
 import { useDebouncedSave } from "../hooks/useDebouncedSave";
 import Toolbar from "./Toolbar";
 import FindReplaceModal from "./FindReplaceModal";
 import TableInsertModal from "./TableInsertModal";
 import { sanitizeHTML } from "../utils/sanitize";
+import "./css/Editor.css";
 
 interface HistoryState {
   stack: string[];
   pointer: number;
 }
 
-export default function Editor() {
-  const editorRef = useRef<HTMLDivElement>(null);
+interface Note {
+  id: string;
+  title: string;
+  content: string;
+  updatedAt: Date;
+}
+
+interface EditorProps {
+  note?: Note | null;
+  onSave: (content: string) => void;
+}
+
+const Editor = ({ note, onSave }: EditorProps) => {
   const { t } = useTranslation("editor");
+  const editorRef = useRef<HTMLDivElement>(document.createElement("div"));
   const [showFindReplace, setShowFindReplace] = useState(false);
   const [showTableInsert, setShowTableInsert] = useState(false);
-  const [, setContent] = useState("");
-  const [isSaving, setIsSaving] = useState(false);
+  const [isSaving] = useState(false);
   const [history, setHistory] = useState<HistoryState>({
     stack: [""],
     pointer: 0,
   });
 
-  const saveToBackend = useCallback(async (content: any) => {
-    setIsSaving(true);
-    await new Promise((resolve) => setTimeout(resolve, 1000)); // Simula delay
-    localStorage.setItem("editorContent", content.toString());
-    setIsSaving(false);
-  }, []);
-  const debouncedSave = useDebouncedSave(saveToBackend, 500);
-
-  const saveState = () => {
+  const handleEditorInput = useCallback(() => {
     if (!editorRef.current) return;
+
     const rawContent = editorRef.current.innerHTML;
     const content = sanitizeHTML(rawContent);
 
+    // Atualizar histórico
     setHistory((prev) => ({
-      stack: [
-        ...prev.stack.slice(0, prev.pointer + 1),
-        content as unknown as string,
-      ],
+      stack: [...prev.stack.slice(0, prev.pointer + 1), content],
       pointer: prev.pointer + 1,
     }));
-    localStorage.setItem("editorContent", content.toString());
-  };
 
-  const handleInput = (e: React.FormEvent<HTMLDivElement>) => {
-    const newContent = (e.target as HTMLDivElement).innerHTML;
-    setContent(newContent);
-    debouncedSave(newContent);
-  };
+    // Disparar salvamento
+    onSave(content);
+  }, [onSave]);
 
+  const debouncedSave = useDebouncedSave(handleEditorInput, 500);
+
+  // Carregar conteúdo da nota
   useEffect(() => {
-    const savedContent = localStorage.getItem("editorContent");
-    if (savedContent) {
-      setContent(savedContent);
-      if (!editorRef.current) return;
-      editorRef.current.innerHTML = savedContent;
-    }
+    if (!editorRef.current) return;
 
-    const handleBeforeUnload = (e: {
-      preventDefault: () => void;
-      returnValue: string;
-    }) => {
+    // Resetar conteúdo
+    editorRef.current.innerHTML = "";
+
+    if (note?.content) {
+      // Carregar conteúdo após renderização
+      requestAnimationFrame(() => {
+        if (editorRef.current) {
+          editorRef.current.innerHTML = note.content;
+
+          // Posicionar cursor no final
+          const range = document.createRange();
+          const selection = window.getSelection();
+          range.selectNodeContents(editorRef.current);
+          range.collapse(false);
+          selection?.removeAllRanges();
+          selection?.addRange(range);
+        }
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [note?.id]); // Recarregar apenas quando o ID mudar
+
+  // Gerenciar salvamento automático
+  useEffect(() => {
+    const handleInput = () => {
+      if (editorRef.current) {
+        debouncedSave(editorRef.current.innerHTML);
+      }
+    };
+
+    const editor = editorRef.current;
+    if (editor) {
+      editor.addEventListener("input", handleInput);
+      return () => editor.removeEventListener("input", handleInput);
+    }
+  }, [debouncedSave]);
+
+  // Prevenção de perda de dados
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
       if (isSaving) {
         e.preventDefault();
-        e.returnValue = "Você tem alterações não salvas!";
+        e.returnValue = t("unsaved_changes_warning");
       }
     };
 
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [isSaving]);
+  }, [isSaving, t]);
 
   return (
     <div className="editor-container">
       <Toolbar
-        setHistory={setHistory}
         history={history}
-        saveState={saveState}
-        setShowFindReplace={setShowFindReplace}
-        setShowTableInsert={setShowTableInsert}
+        setHistory={setHistory}
+        editorRef={editorRef}
+        setShowFindReplace={() => setShowFindReplace(true)}
+        setShowTableInsert={() => setShowTableInsert(true)}
       />
-      {showFindReplace && (
+
+      {showFindReplace && editorRef.current && (
         <FindReplaceModal
-          editorRef={editorRef}
+          editorRef={editorRef as React.RefObject<HTMLDivElement>}
           onClose={() => setShowFindReplace(false)}
-          saveState={saveState}
         />
       )}
 
@@ -100,24 +131,27 @@ export default function Editor() {
           onClose={() => setShowTableInsert(false)}
         />
       )}
+
       <div
         ref={editorRef}
         className="editor-content"
-        contentEditable
+        contentEditable={!!note}
         suppressContentEditableWarning
-        onInput={handleInput}
-      ></div>
+      />
+
       <div className="status-bar">
         {isSaving ? (
           <span className="saving-indicator">
-            <FiSave className="spin-icon" /> {t("editor.salving")}...
+            <FiSave className="spin-icon" /> {t("saving")}...
           </span>
         ) : (
           <span className="saved-indicator">
-            <FiSave /> {t("editor.salve")}
+            <FiSave /> {t("saved")}
           </span>
         )}
       </div>
     </div>
   );
-}
+};
+
+export default Editor;

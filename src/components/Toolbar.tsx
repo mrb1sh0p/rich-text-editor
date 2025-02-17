@@ -1,5 +1,5 @@
 import "./css/Toolbar.css";
-import { useRef, useCallback } from "react";
+import { useCallback } from "react";
 import ExportDropdown from "./ExportDropdown";
 import { useError } from "../contexts/ErrorContext";
 import { sanitizeHTML } from "../utils/sanitize";

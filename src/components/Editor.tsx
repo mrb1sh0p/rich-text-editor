@@ -30,7 +30,7 @@ const Editor = ({ note, onSave }: EditorProps) => {
   const editorRef = useRef<HTMLDivElement>(document.createElement("div"));
   const [showFindReplace, setShowFindReplace] = useState(false);
   const [showTableInsert, setShowTableInsert] = useState(false);
-  const [isSaving, setIsSaving] = useState(false);
+  const [isSaving] = useState(false);
   const [history, setHistory] = useState<HistoryState>({
     stack: [""],
     pointer: 0,
@@ -77,6 +77,7 @@ const Editor = ({ note, onSave }: EditorProps) => {
         }
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [note?.id]); // Recarregar apenas quando o ID mudar
 
   // Gerenciar salvamento automático

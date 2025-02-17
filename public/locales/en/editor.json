@@ -1,0 +1,13 @@
+{
+  "toolbar": {
+    "bold": "bold",
+    "italic": "italic",
+    "underline": "underline",
+    "paragraph": "Paragraph",
+    "heading": "Heading"
+  },
+  "commands": {
+    "save": "Save",
+    "export": "Export as"
+  }
+}

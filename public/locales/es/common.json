@@ -1,0 +1,9 @@
+{
+  "header": {
+    "title": "Richly",
+    "switch_language": "Cambiar idioma"
+  },
+  "footer": {
+    "copyright": "© {{year}} Reservados todos los derechos"
+  }
+}

@@ -3,6 +3,7 @@ import { useRef, useCallback } from "react";
 import ExportDropdown from "./ExportDropdown";
 import { useError } from "../contexts/ErrorContext";
 import { sanitizeHTML } from "../utils/sanitize";
+import { useTranslation } from "react-i18next";
 
 import {
   exportAsHTML,
@@ -42,6 +43,7 @@ export default function Toolbar({
   setShowTableInsert,
   history,
 }: ToolbarProps) {
+  const { t } = useTranslation("editor");
   const editorRef = useRef<HTMLDivElement>(null);
   const { handleError } = useError();
 
@@ -159,10 +161,10 @@ export default function Toolbar({
         aria-label="Formatar bloco"
         onChange={(e) => handleCommand("formatBlock", e.target.value)}
       >
-        <option value="p">Paragraph</option>
-        <option value="h1">Heading 1</option>
-        <option value="h2">Heading 2</option>
-        <option value="h3">Heading 3</option>
+        <option value="p">{t("toolbar.paragraph")}</option>
+        <option value="h1">{t("toolbar.heading")} 1</option>
+        <option value="h2">{t("toolbar.heading")} 2</option>
+        <option value="h3">{t("toolbar.heading")} 3</option>
       </select>
 
       <button onClick={() => handleUndo()} disabled={history.pointer === 0}>

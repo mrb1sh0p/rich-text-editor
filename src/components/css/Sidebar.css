@@ -74,12 +74,3 @@
   padding-bottom: 1rem;
   border-bottom: 1px solid var(--border-color);
 }
-
-.search-bar input {
-  width: 100%;
-  padding: 8px;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-color);
-  background: var(--bg-color);
-  color: var(--text-color);
-}

@@ -3,6 +3,7 @@ import React from "react";
 import { FiSun, FiMoon } from "react-icons/fi";
 import LanguageSwitcher from "./LanguageSwitcher";
 import LoginButton from "./LoginButton";
+import { useAuth } from "../contexts/AuthContext";
 
 interface HeaderProps {
   darkMode: boolean;
@@ -10,11 +11,24 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme }) => {
+  const { user } = useAuth();
+
   return (
     <header className="app-header">
       <div className="header-content">
         <LanguageSwitcher />
-        <h1>Richly</h1>
+        <div>
+          <h1>Richly</h1>
+          {user ? (
+            <p className="user">
+              Logado: {" "}
+              {user!.displayName?.split(" ")[0]}{" "}
+              {user!.displayName?.split(" ")[1]}
+            </p>
+          ) : (
+            <></>
+          )}
+        </div>
         <button
           onClick={toggleTheme}
           className="theme-toggle"

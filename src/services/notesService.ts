@@ -32,7 +32,7 @@ export const getNotes = async (userId: string) => {
   }));
 };
 
-export const updateNoteCloud = async (
+export const updateNote = async (
   userId: string,
   noteId: string,
   updates: Partial<Note>

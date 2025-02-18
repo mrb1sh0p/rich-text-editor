@@ -10,11 +10,7 @@ const LoginButton = () => {
       <div className="auth-section">
         {user ? (
           <button className="logout" onClick={signOut}>
-            {user.photoURL ? (
-              <img src={user.photoURL || ""} alt={user.email || ""} />
-            ) : (
-              <h2>{user.email}</h2>
-            )}
+            <span>Sair</span>
           </button>
         ) : (
           <button className="login" onClick={signInWithGoogle}>

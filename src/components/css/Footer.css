@@ -1,0 +1,23 @@
+.app-footer {
+  background-color: none;
+  padding: 1rem;
+}
+
+.footer-content {
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.footer-links a {
+  color: var(--text-color);
+  margin-left: 1.5rem;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  color: var(--primary-color);
+}

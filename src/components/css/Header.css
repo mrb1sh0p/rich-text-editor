@@ -1,7 +1,7 @@
 .app-header {
   display: flex;
   background-color: var(--toolbar-bg);
-  padding: 0.3rem;
+  padding: 0.2rem;
   font-family: var(--font-heading);
   font-size: var(--text-2xl);
   letter-spacing: -0.5px;
@@ -42,6 +42,11 @@
   margin-left: "auto";
 }
 
+.user {
+  font-size: 12px;
+  color: var(--text-color);
+}
+
 @media (max-width: 768px) {
   .app-header {
     padding: 0.4rem;
@@ -52,7 +57,7 @@
     justify-content: space-around;
   }
 
-  .login-content{
+  .login-content {
     max-width: 100px;
   }
 }

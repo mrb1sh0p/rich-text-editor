@@ -17,8 +17,6 @@
 .logout {
   background: none;
   border: none;
-}
-
-h2 {
+  font: 16px;
   color: var(--text-color);
 }

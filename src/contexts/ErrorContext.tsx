@@ -15,7 +15,7 @@ interface ErrorDetails {
 const ErrorContext = createContext<ErrorContextType | undefined>(undefined);
 
 export const ErrorProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [error, setError] = useState<string | null>(null);
+  const [error] = useState<string | null>(null);
 
   const logError = useCallback(async (errorDetails: ErrorDetails) => {
     // Implementação...
@@ -23,7 +23,7 @@ export const ErrorProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
   const handleError = useCallback((error: Error) => {
     // Implementação...
-  }, [logError]);
+  }, []);
 
   return (
     <ErrorContext.Provider value={{ error, handleError, logError }}>

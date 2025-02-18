@@ -3,6 +3,22 @@
   padding: 0;
   box-sizing: border-box;
 }
+
+.main-content {
+  display: flex;
+  flex: 1;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.editor-wrapper{
+  flex: 1;
+}
+
 .app-header {
   background-color: var(--toolbar-bg);
   padding: 1rem;
@@ -71,7 +87,36 @@
   gap: 0.5rem;
 }
 
-.modal-content {
-  background-color: var(--bg-color);
-  border: 1px solid var(--border-color);
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+}
+
+.empty-state h2 {
+  margin-bottom: 1rem;
+  color: var(--text-color);
+}
+
+.empty-state p {
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
 }

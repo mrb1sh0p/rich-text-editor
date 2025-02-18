@@ -1,0 +1,19 @@
+{
+  "header": {
+    "title": "Richly",
+    "switch_language": "Change Language"
+  },
+  "footer": {
+    "copyright": "© {{year}} All rights reserved"
+  },
+  "sidebar": {
+    "title": "You note",
+    "new_note": "New Note",
+    "untitled": "Untitled",
+    "search_placeholder": "Search notes..."
+  },
+  "empty_state": {
+    "title": "Nenhuma nota selecionada",
+    "message": "Selecione uma nota existente na sidebar ou crie uma nova nota para começar a editar."
+  }
+}

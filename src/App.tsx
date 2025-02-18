@@ -9,13 +9,14 @@ import {
   createNote,
   updateNote as updateNoteService,
   deleteNote as deleteNoteService,
+  getNotes,
 } from "./services/notesService";
 import "./theme.css";
 import "./App.css";
 import "./components/css/LoginButton.css";
 
 interface Note {
-  id: string;
+  id?: string;
   title: string;
   content: string;
   updatedAt: Date;
@@ -46,27 +47,44 @@ const App = () => {
   const [currentNoteId, setCurrentNoteId] = useState<string | null>(null);
 
   useEffect(() => {
+    let isMounted = true; // Flag para evitar state updates em componente desmontado
+
     const loadNotes = async () => {
       try {
-        if (user) {
-          // Load from server
-          const response = await fetch(`/api/notes?user=${user.email}`);
-          const serverNotes = await response.json();
-          setNotes(serverNotes);
+        if (user?.email) {
+          // Carregar do servidor
+          const cloudNotes = await getNotes(user.email);
+          if (isMounted) setNotes(cloudNotes);
         } else {
-          // Load from localStorage
+          // Carregar do localStorage
           const localNotes = localStorage.getItem("notes");
-          setNotes(localNotes ? JSON.parse(localNotes) : []);
-          const lastNoteId = localStorage.getItem("lastNoteId");
-          setCurrentNoteId(lastNoteId);
+          const parsedNotes = localNotes ? JSON.parse(localNotes) : [];
+
+          // Validação básica do formato
+          const validNotes = parsedNotes.every(
+            (note: Note) =>
+              note.id && note.title && note.content && note.updatedAt
+          )
+            ? parsedNotes
+            : [];
+
+          if (isMounted) {
+            setNotes(validNotes);
+            setCurrentNoteId(localStorage.getItem("lastNoteId"));
+          }
         }
       } catch (error) {
         console.error("Failed to load notes:", error);
+        if (isMounted) setNotes([]);
       }
     };
 
     loadNotes();
-  }, [user]);
+
+    return () => {
+      isMounted = false; // Cleanup para evitar memory leaks
+    };
+  }, [user]); // Adicione outras dependências se necessário
 
   // Sync local storage when not logged in
   useEffect(() => {
@@ -154,7 +172,7 @@ const App = () => {
             notes={notes}
             currentNote={currentNote}
             onCreateNote={createNewNote}
-            onSelectNote={(note) => setCurrentNoteId(note.id)}
+            onSelectNote={(note) => setCurrentNoteId(note.id || '')}
             onUpdateNote={(id, title) => updateNote(id, { title })}
             onDeleteNote={deleteNote}
           />
@@ -164,7 +182,7 @@ const App = () => {
               <Editor
                 key={currentNote.id}
                 note={currentNote}
-                onSave={(content) => updateNote(currentNote.id, { content })}
+                onSave={(content) => updateNote(currentNote.id || '', { content })}
               />
             ) : (
               <div className="empty-state">

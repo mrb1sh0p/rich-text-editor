@@ -5,7 +5,7 @@ import SearchBar from "./SearchBar";
 import "./css/Sidebar.css";
 
 interface Note {
-  id: string;
+  id?: string;
   title: string;
   content: string;
   updatedAt: Date;
@@ -41,7 +41,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   );
 
   const handleStartEditing = (note: Note) => {
-    setEditingNoteId(note.id);
+    setEditingNoteId(note.id || '');
     setEditedTitle(note.title);
   };
 
@@ -84,9 +84,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                       type="text"
                       value={editedTitle}
                       onChange={(e) => setEditedTitle(e.target.value)}
-                      onBlur={() => handleSaveTitle(note.id)}
+                      onBlur={() => handleSaveTitle(note.id || '')}
                       onKeyDown={(e) =>
-                        e.key === "Enter" && handleSaveTitle(note.id)
+                        e.key === "Enter" && handleSaveTitle(note.id || '')
                       }
                       autoFocus
                     />
@@ -99,7 +99,7 @@ const Sidebar: React.FC<SidebarProps> = ({
                     className="delete-btn"
                     onClick={(e) => {
                       e.stopPropagation();
-                      onDeleteNote(note.id);
+                      onDeleteNote(note.id || '');
                     }}
                   >
                     <FiX />

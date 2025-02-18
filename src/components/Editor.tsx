@@ -13,7 +13,7 @@ interface HistoryState {
 }
 
 interface Note {
-  id: string;
+  id?: string;
   title: string;
   content: string;
   updatedAt: Date;

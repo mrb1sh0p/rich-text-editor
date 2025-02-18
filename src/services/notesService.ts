@@ -10,8 +10,10 @@ import {
 } from "firebase/firestore";
 
 interface Note {
+  id?: string;
   title: string;
   content: string;
+  updatedAt: Date;
 }
 
 export const createNote = async (userId: string, noteData: Note) => {
@@ -26,10 +28,12 @@ export const getNotes = async (userId: string) => {
   const querySnapshot = await getDocs(
     collection(db, "notes", userId, "userNotes")
   );
+  console.log(querySnapshot);
   return querySnapshot.docs.map((doc) => ({
     id: doc.id,
     ...doc.data(),
-  }));
+    updatedAt: doc.data().updatedAt?.toDate() || new Date(),
+  } as Note));
 };
 
 export const updateNote = async (

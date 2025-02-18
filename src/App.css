@@ -19,21 +19,7 @@
   flex: 1;
 }
 
-.app-header {
-  background-color: var(--toolbar-bg);
-  padding: 0.3rem;
-  font-family: var(--font-heading);
-  font-size: var(--text-2xl);
-  letter-spacing: -0.5px;
-}
 
-.header-content {
-  max-width: 800px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
 .app-footer {
   background-color: var(--toolbar-bg);
@@ -59,18 +45,6 @@
   color: var(--primary-color);
 }
 
-.theme-toggle {
-  background: none;
-  border: none;
-  color: var(--text-color);
-  padding: 0.5rem;
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-
-.theme-toggle:hover {
-  transform: scale(1.1);
-}
 
 .editor-container {
   border-radius: 8px;
@@ -113,14 +87,5 @@
 @media (max-width: 768px) {
   .main-content {
     flex-direction: column;
-  }
-
-  .app-header {
-    padding: 0.4rem;
-    letter-spacing: 0px;
-  }
-
-  .header-content {
-    justify-content: space-around;
   }
 }

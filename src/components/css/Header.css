@@ -1,0 +1,58 @@
+.app-header {
+  display: flex;
+  background-color: var(--toolbar-bg);
+  padding: 0.3rem;
+  font-family: var(--font-heading);
+  font-size: var(--text-2xl);
+  letter-spacing: -0.5px;
+}
+
+.header-content {
+  width: 100vw;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex: 1;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  padding: 0.5rem;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.theme-toggle:hover {
+  transform: scale(1.1);
+}
+
+.login-content {
+  display: flex;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.login-button {
+  margin-left: "auto";
+}
+
+@media (max-width: 768px) {
+  .app-header {
+    padding: 0.4rem;
+    letter-spacing: 0px;
+  }
+
+  .header-content {
+    justify-content: space-around;
+  }
+
+  .login-content{
+    max-width: 100px;
+  }
+}

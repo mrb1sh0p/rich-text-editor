@@ -8,6 +8,7 @@ import Sidebar from "./components/Sidebar";
 import Editor from "./components/Editor";
 import "./theme.css";
 import "./App.css";
+import { AuthProvider } from "./contexts/AuthContext";
 
 interface Note {
   id: string;
@@ -91,44 +92,46 @@ const App = () => {
   return (
     <I18nextProvider i18n={i18n}>
       <Suspense fallback={<div>{t("loading")}</div>}>
-        <ErrorProvider>
-          <div className="app-container">
-            <Header
-              darkMode={darkMode}
-              toggleTheme={() => setDarkMode(!darkMode)}
-            />
-
-            <main className="main-content">
-              <Sidebar
-                notes={notes}
-                currentNote={currentNote}
-                onCreateNote={createNewNote}
-                onSelectNote={(note) => setCurrentNoteId(note.id)}
-                onUpdateNote={(id, title) => updateNote(id, { title })}
-                onDeleteNote={deleteNote}
+        <AuthProvider>
+          <ErrorProvider>
+            <div className="app-container">
+              <Header
+                darkMode={darkMode}
+                toggleTheme={() => setDarkMode(!darkMode)}
               />
 
-              <div className="editor-wrapper">
-                {currentNote ? (
-                  <Editor
-                    key={currentNote.id}
-                    note={currentNote}
-                    onSave={(content) =>
-                      updateNote(currentNote.id, { content })
-                    }
-                  />
-                ) : (
-                  <div className="empty-state">
-                    <h2>{t("empty_state.title")}</h2>
-                    <p>{t("empty_state.message")}</p>
-                  </div>
-                )}
-              </div>
-            </main>
+              <main className="main-content">
+                <Sidebar
+                  notes={notes}
+                  currentNote={currentNote}
+                  onCreateNote={createNewNote}
+                  onSelectNote={(note) => setCurrentNoteId(note.id)}
+                  onUpdateNote={(id, title) => updateNote(id, { title })}
+                  onDeleteNote={deleteNote}
+                />
 
-            <Footer />
-          </div>
-        </ErrorProvider>
+                <div className="editor-wrapper">
+                  {currentNote ? (
+                    <Editor
+                      key={currentNote.id}
+                      note={currentNote}
+                      onSave={(content) =>
+                        updateNote(currentNote.id, { content })
+                      }
+                    />
+                  ) : (
+                    <div className="empty-state">
+                      <h2>{t("empty_state.title")}</h2>
+                      <p>{t("empty_state.message")}</p>
+                    </div>
+                  )}
+                </div>
+              </main>
+
+              <Footer />
+            </div>
+          </ErrorProvider>
+        </AuthProvider>
       </Suspense>
     </I18nextProvider>
   );

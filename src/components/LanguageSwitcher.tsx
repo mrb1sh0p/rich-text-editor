@@ -1,9 +1,10 @@
-import './css/LanguageSwitcher.css'
+import "./css/LanguageSwitcher.css";
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const LanguageSwitcher: React.FC = () => {
   const { i18n } = useTranslation();
+  const { t } = useTranslation("common");
   const [language, setLanguage] = useState("");
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const LanguageSwitcher: React.FC = () => {
     <div className="language-selector">
       <select
         onChange={(e) => changeLanguage(e.target.value)}
-        aria-label="Selecione o idioma"
+        aria-label={t("switch_language")}
       >
         <option value="en">English</option>
         <option value="pt">Português</option>

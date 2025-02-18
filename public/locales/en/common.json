@@ -13,7 +13,7 @@
     "search_placeholder": "Search notes..."
   },
   "empty_state": {
-    "title": "Nenhuma nota selecionada",
-    "message": "Selecione uma nota existente na sidebar ou crie uma nova nota para começar a editar."
+    "title": "No notes selected",
+    "message": "Select an existing note from the sidebar or create a new note to start editing."
   }
 }

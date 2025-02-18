@@ -114,4 +114,13 @@
   .main-content {
     flex-direction: column;
   }
+
+  .app-header {
+    padding: 0.4rem;
+    letter-spacing: 0px;
+  }
+
+  .header-content {
+    justify-content: space-around;
+  }
 }

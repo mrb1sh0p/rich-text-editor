@@ -228,3 +228,14 @@ th {
     transform: translateX(0);
   }
 }
+
+@media (max-width: 768px) {
+  .editor-container {
+    max-width: 100vw;
+    margin-top: 40px;
+  }
+
+  .editor-content {
+    min-height: 60vh;
+  }
+}

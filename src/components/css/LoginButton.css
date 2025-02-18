@@ -18,3 +18,7 @@
   background: none;
   border: none;
 }
+
+h2 {
+  color: var(--text-color);
+}

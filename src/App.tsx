@@ -8,7 +8,9 @@ import Sidebar from "./components/Sidebar";
 import Editor from "./components/Editor";
 import "./theme.css";
 import "./App.css";
-import { AuthProvider } from "./contexts/AuthContext";
+import "./components/css/LoginButton.css";
+import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { createNote } from "./services/notesService";
 
 interface Note {
   id: string;
@@ -19,6 +21,7 @@ interface Note {
 
 const App = () => {
   const { t } = useTranslation("common");
+  const { user } = useAuth();
 
   // Estado do tema
   const [darkMode, setDarkMode] = useState(() => {
@@ -27,6 +30,15 @@ const App = () => {
       ? savedTheme === "dark"
       : window.matchMedia("(prefers-color-scheme: dark)").matches;
   });
+
+  // Atualizar tema
+  useEffect(() => {
+    document.documentElement.setAttribute(
+      "data-theme",
+      darkMode ? "dark" : "light"
+    );
+    localStorage.setItem("theme", darkMode ? "dark" : "light");
+  }, [darkMode]);
 
   // Estado das notas
   const [notes, setNotes] = useState<Note[]>(() => {
@@ -39,43 +51,26 @@ const App = () => {
     return localStorage.getItem("lastNoteId");
   });
 
-  // Atualizar tema
-  useEffect(() => {
-    document.documentElement.setAttribute(
-      "data-theme",
-      darkMode ? "dark" : "light"
-    );
-    localStorage.setItem("theme", darkMode ? "dark" : "light");
-  }, [darkMode]);
-
   // Atualizar localStorage quando as notas mudam
   useEffect(() => {
-    localStorage.setItem("notes", JSON.stringify(notes));
+    if (!user) localStorage.setItem("notes", JSON.stringify(notes));
   }, [notes]);
 
   // Criar nova nota
-  const createNewNote = useCallback(() => {
-    const newNote: Note = {
-      id: Date.now().toString(),
+  const createNewNote = useCallback(async () => {
+    const newNote = {
       title: t("sidebar.untitled"),
       content: "",
       updatedAt: new Date(),
     };
-
-    setNotes((prev) => [newNote, ...prev]);
-    setCurrentNoteId(newNote.id);
+    const note = await createNote(user!.email || "", newNote);
+    setNotes((prev) => [{ id: note.id, ...newNote }, ...prev]);
+    setCurrentNoteId(note.id);
   }, [t]);
 
   // Atualizar nota
-  const updateNote = useCallback((noteId: string, updates: Partial<Note>) => {
-    setNotes((prev) =>
-      prev.map((note) =>
-        note.id === noteId
-          ? { ...note, ...updates, updatedAt: new Date() }
-          : note
-      )
-    );
-  }, []);
+  const updateNote = useCallback((noteId: string, updates: Partial<Note>) => {},
+  []);
 
   // Excluir nota
   const deleteNote = useCallback(
@@ -100,33 +95,40 @@ const App = () => {
                 toggleTheme={() => setDarkMode(!darkMode)}
               />
 
-              <main className="main-content">
-                <Sidebar
-                  notes={notes}
-                  currentNote={currentNote}
-                  onCreateNote={createNewNote}
-                  onSelectNote={(note) => setCurrentNoteId(note.id)}
-                  onUpdateNote={(id, title) => updateNote(id, { title })}
-                  onDeleteNote={deleteNote}
-                />
+              {user ? (
+                <main className="main-content">
+                  <Sidebar
+                    notes={notes}
+                    currentNote={currentNote}
+                    onCreateNote={createNewNote}
+                    onSelectNote={(note) => setCurrentNoteId(note.id)}
+                    onUpdateNote={(id, title) => updateNote(id, { title })}
+                    onDeleteNote={deleteNote}
+                  />
 
-                <div className="editor-wrapper">
-                  {currentNote ? (
-                    <Editor
-                      key={currentNote.id}
-                      note={currentNote}
-                      onSave={(content) =>
-                        updateNote(currentNote.id, { content })
-                      }
-                    />
-                  ) : (
-                    <div className="empty-state">
-                      <h2>{t("empty_state.title")}</h2>
-                      <p>{t("empty_state.message")}</p>
-                    </div>
-                  )}
+                  <div className="editor-wrapper">
+                    {currentNote ? (
+                      <Editor
+                        key={currentNote.id}
+                        note={currentNote}
+                        onSave={(content) =>
+                          updateNote(currentNote.id, { content })
+                        }
+                      />
+                    ) : (
+                      <div className="empty-state">
+                        <h2>{t("empty_state.title")}</h2>
+                        <p>{t("empty_state.message")}</p>
+                      </div>
+                    )}
+                  </div>
+                </main>
+              ) : (
+                <div className="empty-state">
+                  <h2>{t("empty_user.title")}</h2>
+                  <p>{t("empty_user.message")}</p>
                 </div>
-              </main>
+              )}
 
               <Footer />
             </div>

@@ -15,5 +15,9 @@
   "empty_state": {
     "title": "No notes selected",
     "message": "Select an existing note from the sidebar or create a new note to start editing."
+  },
+  "empty_user": {
+    "title": "Faça login para continuar",
+    "message": "Faça login no canto superior direito da tela, diretametne pelo Google"
   }
 }

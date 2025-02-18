@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { FiMenu, FiX } from "react-icons/fi";
 import SearchBar from "./SearchBar";
 import "./css/Sidebar.css";
-import LoginButton from "./LoginButton";
 
 interface Note {
   id: string;

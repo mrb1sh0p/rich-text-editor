@@ -100,16 +100,21 @@ const App = () => {
   const updateNote = useCallback(
     async (noteId: string, updates: Partial<Note>) => {
       try {
+        const safeUpdates = {
+          ...updates,
+          content: updates.content?.toString() || "",
+        };
+
         setNotes((prevNotes) =>
           prevNotes.map((note) =>
             note.id === noteId
-              ? { ...note, ...updates, updatedAt: new Date() }
+              ? { ...note, ...safeUpdates, updatedAt: new Date() }
               : note
           )
         );
 
         if (user) {
-          await updateNoteService(user!.email || "", noteId, updates);
+          await updateNoteService(user.email || "", noteId, safeUpdates);
         }
       } catch (error) {
         console.error("Failed to update note:", error);

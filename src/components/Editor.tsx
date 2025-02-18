@@ -39,7 +39,7 @@ const Editor = ({ note, onSave }: EditorProps) => {
     if (!editorRef.current) return;
 
     const rawContent = editorRef.current.innerHTML;
-    const content = sanitizeHTML(rawContent);
+    const content = sanitizeHTML(rawContent).toString();
 
     setHistory((prev) => ({
       stack: [...prev.stack.slice(0, prev.pointer + 1), content],

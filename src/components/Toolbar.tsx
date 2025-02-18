@@ -33,7 +33,7 @@ interface ToolbarProps {
   history: HistoryState;
   setShowFindReplace: React.Dispatch<React.SetStateAction<boolean>>;
   setShowTableInsert: React.Dispatch<React.SetStateAction<boolean>>;
-  editorRef: React.RefObject<HTMLDivElement>;
+  editorRef: React.RefObject<HTMLDivElement | null>;
 }
 
 export default function Toolbar({

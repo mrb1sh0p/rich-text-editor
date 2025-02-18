@@ -1,48 +1,132 @@
 :root {
   /* Light theme - Neutro suave com toques terrosos */
-  --bg-color: #f8fafc;         /* Branco gelo suave */
-  --text-color: #1a1a1a;       /* Preto suavizado */
-  --primary-color: #3f51b5;    /* Azul slate moderado */
-  --secondary-color: #eceff1;  /* Cinza claro neutro */
-  --accent-color: #6b8790;     /* Azul-cinza terroso */
-  --border-color: #cfd8dc;     /* Cinza médio suave */
-  --hover-bg: #f0f4f8;         /* Azul claro muito suave */
-  --toolbar-bg: #ffffff;       /* Branco puro para contraste */
-  --surface-color: #ffffff;    /* Superfícies brancas */
-  
+  --bg-color: #f8fafc; /* Branco gelo suave */
+  --text-color: #1a1a1a; /* Preto suavizado */
+  --primary-color: #3f51b5; /* Azul slate moderado */
+  --secondary-color: #eceff1; /* Cinza claro neutro */
+  --accent-color: #6b8790; /* Azul-cinza terroso */
+  --border-color: #cfd8dc; /* Cinza médio suave */
+  --hover-bg: #f0f4f8; /* Azul claro muito suave */
+  --toolbar-bg: #ffffff; /* Branco puro para contraste */
+  --surface-color: #ffffff; /* Superfícies brancas */
+
   /* Tons de apoio */
-  --success-color: #81c784;    /* Verde suave */
-  --warning-color: #ffd54f;    /* Amêndoa claro */
-  --error-color: #e57373;      /* Vermelho desaturado */
-  
+  --success-color: #81c784; /* Verde suave */
+  --warning-color: #ffd54f; /* Amêndoa claro */
+  --error-color: #e57373; /* Vermelho desaturado */
+
   /* Espaçamento e bordas */
   --radius-sm: 4px;
   --radius-md: 8px;
   --radius-lg: 12px;
+
+  /* Sistema de Tipografia */
+  --font-base: "Inter", system-ui, -apple-system, sans-serif;
+  --font-heading: "Space Grotesk", var(--font-base);
+
+  /* Escala de Tipos Modular (1.125 - Major Third) */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-md: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.75rem; /* 28px */
+  --text-4xl: 2rem; /* 32px */
+
+  /* Espaçamento entre linhas */
+  --leading-tight: 1.25;
+  --leading-normal: 1.5;
+  --leading-relaxed: 1.75;
 }
 
 [data-theme="dark"] {
   /* Dark theme - Base escura com tons profundos */
-  --bg-color: #1a1d24;         /* Azul-cinza escuro */
-  --text-color: #e0e0e0;       /* Branco acinzentado */
-  --primary-color: #6b8790;    /* Azul petróleo suave */
-  --secondary-color: #2d3138;  /* Cinza-azulado médio */
-  --accent-color: #8a9a9e;     /* Azul-cinza claro */
-  --border-color: #3d424a;     /* Borda escura suave */
-  --hover-bg: #2a2e36;         /* Hover escuro moderado */
-  --toolbar-bg: #21252d;       /* Barra de ferramentas escura */
-  --surface-color: #262a32;    /* Superfícies escuras */
-  
+  --bg-color: #1a1d24; /* Azul-cinza escuro */
+  --text-color: #e0e0e0; /* Branco acinzentado */
+  --primary-color: #6b8790; /* Azul petróleo suave */
+  --secondary-color: #2d3138; /* Cinza-azulado médio */
+  --accent-color: #8a9a9e; /* Azul-cinza claro */
+  --border-color: #3d424a; /* Borda escura suave */
+  --hover-bg: #2a2e36; /* Hover escuro moderado */
+  --toolbar-bg: #21252d; /* Barra de ferramentas escura */
+  --surface-color: #262a32; /* Superfícies escuras */
+
   /* Tons de apoio ajustados */
-  --success-color: #689f38;    /* Verde musgo */
-  --warning-color: #ffb74d;    /* Âmbar suave */
-  --error-color: #d32f2f;      /* Vermelho terroso */
+  --success-color: #689f38; /* Verde musgo */
+  --warning-color: #ffb74d; /* Âmbar suave */
+  --error-color: #d32f2f; /* Vermelho terroso */
 }
 
 body {
   background-color: var(--bg-color);
   color: var(--text-color);
-  transition: 
-    background-color 0.4s ease-in-out,
-    color 0.4s ease-in-out;
+  transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+  font-family: var(--font-base);
+  font-weight: 400;
+  line-height: var(--leading-normal);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Hierarquia de Cabeçalhos */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  line-height: var(--leading-tight);
+  margin: 0.5em 0;
+}
+
+h1 {
+  font-size: var(--text-4xl);
+}
+h2 {
+  font-size: var(--text-3xl);
+}
+h3 {
+  font-size: var(--text-2xl);
+}
+h4 {
+  font-size: var(--text-xl);
+}
+h5 {
+  font-size: var(--text-lg);
+}
+h6 {
+  font-size: var(--text-md);
+}
+
+/* Elementos Específicos */
+button,
+input,
+textarea {
+  font-family: inherit;
+  font-size: var(--text-md);
+}
+
+/* Classes Utilitárias */
+.font-light {
+  font-weight: 300;
+}
+.font-regular {
+  font-weight: 400;
+}
+.font-medium {
+  font-weight: 500;
+}
+.font-semibold {
+  font-weight: 600;
+}
+.font-bold {
+  font-weight: 700;
+}
+
+.text-muted {
+  color: var(--text-muted-color);
+  font-weight: 300;
 }

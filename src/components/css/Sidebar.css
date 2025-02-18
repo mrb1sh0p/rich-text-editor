@@ -9,7 +9,7 @@
 
 .new-note-btn {
   width: 100%;
-  padding: 12px;
+  padding: 8px;
   margin-bottom: 1rem;
   background: var(--primary-color);
   color: white;
@@ -25,12 +25,15 @@
 }
 
 .note-item {
-  padding: 1rem;
+  padding: 0.5rem;
   border-radius: var(--radius-md);
   background: var(--note-bg);
   cursor: pointer;
   position: relative;
   transition: background 0.2s;
+  font-family: var(--font-heading);
+  font-size: var(--text-md);
+  font-weight: 500;
 }
 
 .note-item:hover {

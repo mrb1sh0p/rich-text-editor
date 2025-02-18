@@ -21,7 +21,7 @@
     "text": "Texto simples"
   },
   "editor": {
-    "salving": "salvando",
-    "salve": " Todas as alterações foram salvas"
+    "saving": "salvando",
+    "saved": " Todas as alterações foram salvas"
   }
 }

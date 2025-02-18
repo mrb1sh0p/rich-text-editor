@@ -1,7 +1,6 @@
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { FiSave } from "react-icons/fi";
-import { useDebouncedSave } from "../hooks/useDebouncedSave";
 import Toolbar from "./Toolbar";
 import FindReplaceModal from "./FindReplaceModal";
 import TableInsertModal from "./TableInsertModal";
@@ -27,10 +26,10 @@ interface EditorProps {
 
 const Editor = ({ note, onSave }: EditorProps) => {
   const { t } = useTranslation("editor");
-  const editorRef = useRef<HTMLDivElement>(document.createElement("div"));
+  const editorRef = useRef<HTMLDivElement>(null);
   const [showFindReplace, setShowFindReplace] = useState(false);
   const [showTableInsert, setShowTableInsert] = useState(false);
-  const [isSaving] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const [history, setHistory] = useState<HistoryState>({
     stack: [""],
     pointer: 0,
@@ -42,50 +41,20 @@ const Editor = ({ note, onSave }: EditorProps) => {
     const rawContent = editorRef.current.innerHTML;
     const content = sanitizeHTML(rawContent);
 
-    // Atualizar histórico
     setHistory((prev) => ({
       stack: [...prev.stack.slice(0, prev.pointer + 1), content],
       pointer: prev.pointer + 1,
     }));
 
-    // Disparar salvamento
+    // Atualização imediata do estado pai
     onSave(content);
   }, [onSave]);
 
-  const debouncedSave = useDebouncedSave(handleEditorInput, 500);
-
-  // Carregar conteúdo da nota
-  useEffect(() => {
-    if (!editorRef.current) return;
-
-    // Resetar conteúdo
-    editorRef.current.innerHTML = "";
-
-    if (note?.content) {
-      // Carregar conteúdo após renderização
-      requestAnimationFrame(() => {
-        if (editorRef.current) {
-          editorRef.current.innerHTML = note.content;
-
-          // Posicionar cursor no final
-          const range = document.createRange();
-          const selection = window.getSelection();
-          range.selectNodeContents(editorRef.current);
-          range.collapse(false);
-          selection?.removeAllRanges();
-          selection?.addRange(range);
-        }
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [note?.id]); // Recarregar apenas quando o ID mudar
-
-  // Gerenciar salvamento automático
   useEffect(() => {
     const handleInput = () => {
-      if (editorRef.current) {
-        debouncedSave(editorRef.current.innerHTML);
-      }
+      setIsSaving(true);
+      handleEditorInput();
+      setTimeout(() => setIsSaving(false), 500); // Simula feedback visual
     };
 
     const editor = editorRef.current;
@@ -93,20 +62,26 @@ const Editor = ({ note, onSave }: EditorProps) => {
       editor.addEventListener("input", handleInput);
       return () => editor.removeEventListener("input", handleInput);
     }
-  }, [debouncedSave]);
+  }, [handleEditorInput]);
 
-  // Prevenção de perda de dados
+  // Carregar conteúdo da nota
   useEffect(() => {
-    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (isSaving) {
-        e.preventDefault();
-        e.returnValue = t("unsaved_changes_warning");
-      }
+    if (!editorRef.current || !note) return;
+
+    const loadContent = () => {
+      editorRef.current!.innerHTML = note.content;
+      const range = document.createRange();
+      const selection = window.getSelection();
+      range.selectNodeContents(editorRef.current!);
+      range.collapse(false);
+      selection?.removeAllRanges();
+      selection?.addRange(range);
     };
 
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, [isSaving, t]);
+    if (editorRef.current.innerHTML !== note.content) {
+      loadContent();
+    }
+  }, [note]);
 
   return (
     <div className="editor-container">
@@ -118,9 +93,9 @@ const Editor = ({ note, onSave }: EditorProps) => {
         setShowTableInsert={() => setShowTableInsert(true)}
       />
 
-      {showFindReplace && editorRef.current && (
+      {showFindReplace && (
         <FindReplaceModal
-          editorRef={editorRef as React.RefObject<HTMLDivElement>}
+          editorRef={editorRef}
           onClose={() => setShowFindReplace(false)}
         />
       )}
@@ -137,18 +112,18 @@ const Editor = ({ note, onSave }: EditorProps) => {
         className="editor-content"
         contentEditable={!!note}
         suppressContentEditableWarning
+        onInput={handleEditorInput}
       />
 
       <div className="status-bar">
-        {isSaving ? (
-          <span className="saving-indicator">
-            <FiSave className="spin-icon" /> {t("saving")}...
-          </span>
-        ) : (
-          <span className="saved-indicator">
-            <FiSave /> {t("saved")}
-          </span>
-        )}
+        <span
+          className={
+            isSaving ? "saving-indicator" : "saved-indicator saving-indicator"
+          }
+        >
+          <FiSave className={isSaving ? "spin-icon" : ""} />
+          {isSaving ? t("editor.saving") + "..." : t("editor.saved")}
+        </span>
       </div>
     </div>
   );

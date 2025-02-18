@@ -117,84 +117,86 @@ export default function Toolbar({
 
   return (
     <div className="toolbar">
-      <button
-        onClick={() => setShowFindReplace(true)}
-        aria-label="Localizar e substituir"
-      >
-        <FaSearch />
-      </button>
-      <button
-        onClick={() => handleCommand("bold")}
-        aria-label="Negrito"
-        role="switch"
-        aria-checked={document.queryCommandState("bold")}
-      >
-        <FaBold />
-      </button>
+      <div className="line-up">
+        <button
+          onClick={() => setShowFindReplace(true)}
+          aria-label="Localizar e substituir"
+        >
+          <FaSearch />
+        </button>
+        <button
+          onClick={() => handleCommand("bold")}
+          aria-label="Negrito"
+          role="switch"
+          aria-checked={document.queryCommandState("bold")}
+        >
+          <FaBold />
+        </button>
 
-      <button
-        onClick={() => handleCommand("italic")}
-        aria-label="Itálico"
-        role="switch"
-        aria-checked={document.queryCommandState("italic")}
-      >
-        <FaItalic />
-      </button>
-      <button
-        onClick={() => handleCommand("underline")}
-        aria-label="Sublinhado"
-        role="switch"
-        aria-checked={document.queryCommandState("underline")}
-      >
-        <FaUnderline />
-      </button>
-      <button
-        onClick={() => setShowTableInsert(true)}
-        aria-label="Inserir tabela"
-      >
-        <FaTable />
-      </button>
+        <button
+          onClick={() => handleCommand("italic")}
+          aria-label="Itálico"
+          role="switch"
+          aria-checked={document.queryCommandState("italic")}
+        >
+          <FaItalic />
+        </button>
+        <button
+          onClick={() => handleCommand("underline")}
+          aria-label="Sublinhado"
+          role="switch"
+          aria-checked={document.queryCommandState("underline")}
+        >
+          <FaUnderline />
+        </button>
+        <button
+          onClick={() => setShowTableInsert(true)}
+          aria-label="Inserir tabela"
+        >
+          <FaTable />
+        </button>
+        <select
+          aria-label="Formatar bloco"
+          onChange={(e) => handleCommand("formatBlock", e.target.value)}
+        >
+          <option value="p">{t("toolbar.paragraph")}</option>
+          <option value="h1">{t("toolbar.heading")} 1</option>
+          <option value="h2">{t("toolbar.heading")} 2</option>
+          <option value="h3">{t("toolbar.heading")} 3</option>
+        </select>
+      </div>
+      <div className="line-down">
+        <button onClick={() => handleUndo()} disabled={history.pointer === 0}>
+          <FaUndo />
+        </button>
 
-      <select
-        aria-label="Formatar bloco"
-        onChange={(e) => handleCommand("formatBlock", e.target.value)}
-      >
-        <option value="p">{t("toolbar.paragraph")}</option>
-        <option value="h1">{t("toolbar.heading")} 1</option>
-        <option value="h2">{t("toolbar.heading")} 2</option>
-        <option value="h3">{t("toolbar.heading")} 3</option>
-      </select>
+        <button
+          onClick={() => handleRedo()}
+          disabled={history.pointer === history.stack.length - 1}
+        >
+          <FaRedo />
+        </button>
 
-      <button onClick={() => handleUndo()} disabled={history.pointer === 0}>
-        <FaUndo />
-      </button>
+        <button
+          onClick={() => {
+            const url = prompt(t("toolbar.enterLink"));
+            if (url) handleCommand("createLink", url);
+          }}
+        >
+          <FaLink />
+        </button>
 
-      <button
-        onClick={() => handleRedo()}
-        disabled={history.pointer === history.stack.length - 1}
-      >
-        <FaRedo />
-      </button>
-
-      <button
-        onClick={() => {
-          const url = prompt(t("toolbar.enterLink"));
-          if (url) handleCommand("createLink", url);
-        }}
-      >
-        <FaLink />
-      </button>
-
-      <button
-        onClick={() => {
-          const url = prompt(t("toolbar.enterImage"));
-          if (url) handleCommand("insertImage", url);
-        }}
-      >
-        <FaImage />
-      </button>
-      <div style={{ marginLeft: "auto" }}>
-        <ExportDropdown onExport={handleExport} />
+        <button
+          onClick={() => {
+            const url = prompt(t("toolbar.enterImage"));
+            if (url) handleCommand("insertImage", url);
+          }}
+        >
+          <FaImage />
+        </button>
+        <div className="export">
+          <ExportDropdown onExport={handleExport} />
+        </div>
       </div>
     </div>
   );

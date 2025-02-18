@@ -1,8 +1,16 @@
+import "./css/Search.css";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { FiMenu } from "react-icons/fi";
 
-const SearchBar: React.FC<{ onSearch: (query: string) => void }> = ({
+interface SearchProps {
+  toggleMenu?: () => void;
+  onSearch: (query: string) => void;
+}
+
+const SearchBar: React.FC<SearchProps> = ({
   onSearch,
+  toggleMenu,
 }) => {
   const { t } = useTranslation("common");
   const [query, setQuery] = useState("");
@@ -18,6 +26,9 @@ const SearchBar: React.FC<{ onSearch: (query: string) => void }> = ({
           onSearch(e.target.value);
         }}
       />
+      <button onClick={toggleMenu} className="side-toggle">
+        <FiMenu />
+      </button>
     </div>
   );
 };

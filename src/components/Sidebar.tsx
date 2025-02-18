@@ -14,7 +14,7 @@ interface Note {
 interface SidebarProps {
   notes: Note[];
   currentNote: Note | null;
-  onSelectNote: (note: Note) => void; 
+  onSelectNote: (note: Note) => void;
   onCreateNote: () => void;
   onUpdateNote: (id: string, newTitle: string) => void;
   onDeleteNote: (id: string) => void;

@@ -4,14 +4,12 @@ import { useTranslation } from "react-i18next";
 import { FiMenu } from "react-icons/fi";
 
 interface SearchProps {
-  isVisible?: boolean;
   toggleMenu?: () => void;
   onSearch: (query: string) => void;
 }
 
 const SearchBar: React.FC<SearchProps> = ({
   onSearch,
-  isVisible,
   toggleMenu,
 }) => {
   const { t } = useTranslation("common");
@@ -28,11 +26,8 @@ const SearchBar: React.FC<SearchProps> = ({
           onSearch(e.target.value);
         }}
       />
-      <button
-        onClick={toggleMenu}
-        className="menu-toggle"
-      >
-        {isVisible ? <FiMenu /> : <FiMenu />}
+      <button onClick={toggleMenu} className="side-toggle">
+        <FiMenu />
       </button>
     </div>
   );

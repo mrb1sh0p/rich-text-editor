@@ -38,7 +38,6 @@
 .app-footer {
   background-color: var(--toolbar-bg);
   padding: 1rem;
-  margin-top: 2rem;
 }
 
 .footer-content {
@@ -114,12 +113,5 @@
 @media (max-width: 768px) {
   .main-content {
     flex-direction: column;
-  }
-
-  .sidebar {
-    width: 100%;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
   }
 }

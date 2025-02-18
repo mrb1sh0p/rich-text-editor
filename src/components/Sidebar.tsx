@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { use, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FiX } from "react-icons/fi";
+import { FiMenu, FiX } from "react-icons/fi";
 import SearchBar from "./SearchBar";
 import "./css/Sidebar.css";
 
@@ -32,6 +32,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   const [searchQuery, setSearchQuery] = useState("");
   const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
   const [editedTitle, setEditedTitle] = useState("");
+  const [isVisible, setVisible] = useState(false);
 
   const filteredNotes = notes.filter(
     (note) =>
@@ -52,62 +53,77 @@ const Sidebar: React.FC<SidebarProps> = ({
     setEditedTitle("");
   };
 
+  const handleSideBar = () => {
+    setVisible(!isVisible);
+  };
+
   return (
-    <div className="sidebar">
-      <div className="sidebar-header">
-        <SearchBar onSearch={setSearchQuery} />
-      </div>
-
-      <button onClick={onCreateNote} className="new-note-btn">
-        {t("sidebar.new_note")}
-      </button>
-
-      <div className="notes-list">
-        {filteredNotes.map((note) => (
-          <div
-            key={note.id}
-            className={`note-item ${
-              note.id === currentNote?.id ? "active" : ""
-            }`}
-            onClick={() => onSelectNote(note)}
-          >
-            <div className="note-header">
-              {editingNoteId === note.id ? (
-                <input
-                  type="text"
-                  value={editedTitle}
-                  onChange={(e) => setEditedTitle(e.target.value)}
-                  onBlur={() => handleSaveTitle(note.id)}
-                  onKeyDown={(e) =>
-                    e.key === "Enter" && handleSaveTitle(note.id)
-                  }
-                  autoFocus
-                />
-              ) : (
-                <h4 onDoubleClick={() => handleStartEditing(note)}>
-                  {note.title}
-                </h4>
-              )}
-              <button
-                className="delete-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onDeleteNote(note.id);
-                }}
-              >
-                <FiX />
-              </button>
-            </div>
-            <small>
-              {new Date(note.updatedAt).toLocaleDateString(undefined, {
-                day: "numeric",
-                month: "short",
-                year: "numeric",
-              })}
-            </small>
+    <div className={isVisible ? "sidebar" : "mini-sidebar"}>
+      {isVisible ? (
+        <div>
+          <div className="sidebar-header">
+            <SearchBar
+              onSearch={setSearchQuery}
+              toggleMenu={handleSideBar}
+            />
           </div>
-        ))}
-      </div>
+
+          <button onClick={onCreateNote} className="new-note-btn">
+            {t("sidebar.new_note")}
+          </button>
+
+          <div className="notes-list">
+            {filteredNotes.map((note) => (
+              <div
+                key={note.id}
+                className={`note-item ${
+                  note.id === currentNote?.id ? "active" : ""
+                }`}
+                onClick={() => onSelectNote(note)}
+              >
+                <div className="note-header">
+                  {editingNoteId === note.id ? (
+                    <input
+                      type="text"
+                      value={editedTitle}
+                      onChange={(e) => setEditedTitle(e.target.value)}
+                      onBlur={() => handleSaveTitle(note.id)}
+                      onKeyDown={(e) =>
+                        e.key === "Enter" && handleSaveTitle(note.id)
+                      }
+                      autoFocus
+                    />
+                  ) : (
+                    <h4 onDoubleClick={() => handleStartEditing(note)}>
+                      {note.title}
+                    </h4>
+                  )}
+                  <button
+                    className="delete-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onDeleteNote(note.id);
+                    }}
+                  >
+                    <FiX />
+                  </button>
+                </div>
+                <small>
+                  {new Date(note.updatedAt).toLocaleDateString(undefined, {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                  })}
+                </small>
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : (
+        <button onClick={handleSideBar} className="side-toggle">
+          <FiMenu />
+        </button>
+      )}
     </div>
   );
 };

@@ -5,6 +5,9 @@
   flex: 1;
   padding: 20px;
   overflow-y: auto;
+  font-family: var(--font-base);
+  font-size: var(--text-md);
+  line-height: var(--leading-relaxed);
 }
 
 .editor-content {
@@ -30,7 +33,8 @@ table {
   width: 100%;
 }
 
-th, td {
+th,
+td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
@@ -80,7 +84,7 @@ th {
   background: #fff;
   border: 1px solid #eee;
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   min-width: 240px;
   margin-top: 8px;
   z-index: 1000;
@@ -150,7 +154,7 @@ th {
 .highlight-match {
   background-color: #ffeb3b;
   border-radius: 3px;
-  box-shadow: 0 0 2px rgba(0,0,0,0.2);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
 }
 
 .current-match {
@@ -159,7 +163,7 @@ th {
 }
 
 .current-match::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -2px;
   left: 0;
@@ -176,7 +180,7 @@ th {
   background: #ff4444;
   color: white;
   border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
   animation: slideIn 0.3s ease-out;
 }
@@ -204,8 +208,12 @@ th {
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .saved-indicator {
@@ -213,6 +221,10 @@ th {
 }
 
 @keyframes slideIn {
-  from { transform: translateX(100%); }
-  to { transform: translateX(0); }
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }

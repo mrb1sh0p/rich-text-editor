@@ -49,7 +49,6 @@ const App = () => {
         if (user?.email) {
           const cloudNotes = await getNotes(user.uid);
 
-          // convertendo timestamps que vem do servidor
           const noteWithDate = cloudNotes.map((note) => ({
             ...note,
             updatedAt: new Date(note.updatedAt),
@@ -59,7 +58,7 @@ const App = () => {
             })),
           }));
 
-          if (isMounted) setNotes(cloudNotes);
+          if (isMounted) setNotes(noteWithDate);
         } else {
           const localNotes = localStorage.getItem("notes");
           const parsedNotes = localNotes ? JSON.parse(localNotes) : [];

@@ -6,6 +6,7 @@ import Sidebar from "./components/Sidebar";
 import Editor from "./components/Editor";
 import Login from "./components/Login";
 import { useAuth } from "./contexts/AuthContext";
+import { Note } from "./types/note";
 import {
   createNote,
   updateNote as updateNoteService,
@@ -15,13 +16,6 @@ import {
 import "./theme.css";
 import "./App.css";
 import "./components/css/LoginButton.css";
-
-interface Note {
-  id?: string;
-  title: string;
-  content: string;
-  updatedAt: Date;
-}
 
 const App = () => {
   const { t } = useTranslation("common");
@@ -43,31 +37,30 @@ const App = () => {
     localStorage.setItem("theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
-  // Notes state management
   const [notes, setNotes] = useState<Note[]>([]);
   const [currentNoteId, setCurrentNoteId] = useState<string | null>(null);
 
   useEffect(() => {
-    let isMounted = true; // Flag para evitar state updates em componente desmontado
+    let isMounted = true;
 
     const loadNotes = async () => {
       try {
         if (user?.email) {
-          // Carregar do servidor
           const cloudNotes = await getNotes(user.uid);
           if (isMounted) setNotes(cloudNotes);
         } else {
-          // Carregar do localStorage
           const localNotes = localStorage.getItem("notes");
           const parsedNotes = localNotes ? JSON.parse(localNotes) : [];
 
-          // Validação básica do formato
-          const validNotes = parsedNotes.every(
+          const migratedNotes = parsedNotes.map((note: any) => ({
+            ...note,
+            history: note.history || [],
+          }));
+
+          const validNotes = migratedNotes.filter(
             (note: Note) =>
               note.id && note.title && note.content && note.updatedAt
-          )
-            ? parsedNotes
-            : [];
+          );
 
           if (isMounted) {
             setNotes(validNotes);
@@ -75,19 +68,14 @@ const App = () => {
           }
         }
       } catch (error) {
-        console.error("Failed to load notes:", error);
+        console.error("Erro ao carregar notas:", error);
         if (isMounted) setNotes([]);
       }
     };
 
     loadNotes();
+  }, [user]);
 
-    return () => {
-      isMounted = false; // Cleanup para evitar memory leaks
-    };
-  }, [user]); // Adicione outras dependências se necessário
-
-  // Sync local storage when not logged in
   useEffect(() => {
     if (!user) {
       localStorage.setItem("notes", JSON.stringify(notes));
@@ -97,19 +85,19 @@ const App = () => {
     }
   }, [notes, currentNoteId, user]);
 
-  // Note operations
   const createNewNote = useCallback(async () => {
     if (!user) return;
 
     try {
-      const newNote = {
+      const newNote: Note = {
         title: t("sidebar.untitled"),
         content: "",
         updatedAt: new Date(),
+        history: [],
       };
 
       const createdNote = await createNote(user.uid, newNote);
-      setNotes((prev) => [{ id: createdNote.id, ...newNote }, ...prev]);
+      setNotes((prev) => [{ ...newNote, id: createdNote.id }, ...prev]);
       setCurrentNoteId(createdNote.id);
     } catch (error) {
       console.error("Failed to create note:", error);
@@ -119,24 +107,41 @@ const App = () => {
   const updateNote = useCallback(
     async (noteId: string, updates: Partial<Note>) => {
       try {
-        const safeUpdates = {
-          ...updates,
-          content: updates.content?.toString() || "",
-        };
+        const MAX_HISTORY_ENTRIES = 50;
 
-        setNotes((prevNotes) =>
-          prevNotes.map((note) =>
-            note.id === noteId
-              ? { ...note, ...safeUpdates, updatedAt: new Date() }
-              : note
-          )
-        );
+        setNotes((prevNotes) => {
+          return prevNotes.map((note) => {
+            if (note.id === noteId) {
+              const newHistoryEntry = {
+                timestamp: new Date(),
+                content: note.content,
+              };
 
-        if (user) {
-          await updateNoteService(user.uid, noteId, safeUpdates);
-        }
+              const updatedNote = {
+                ...note,
+                ...updates,
+                updatedAt: new Date(),
+                history: [
+                  newHistoryEntry,
+                  ...(note.history || []), 
+                ].slice(0, MAX_HISTORY_ENTRIES),
+              };
+
+              // Atualizar servidor (se logado)
+              if (user) {
+                updateNoteService(user.uid, noteId, updatedNote).catch(
+                  (error) =>
+                    console.error("Erro ao atualizar no servidor:", error)
+                );
+              }
+
+              return updatedNote;
+            }
+            return note;
+          });
+        });
       } catch (error) {
-        console.error("Failed to update note:", error);
+        console.error("Falha ao atualizar nota:", error);
       }
     },
     [user]

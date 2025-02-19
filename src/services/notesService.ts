@@ -1,3 +1,4 @@
+import { Note } from "../types/note";
 import { db } from "../firebase/config";
 import {
   collection,
@@ -8,13 +9,6 @@ import {
   deleteDoc,
   serverTimestamp,
 } from "firebase/firestore";
-
-interface Note {
-  id?: string;
-  title: string;
-  content: string;
-  updatedAt: Date;
-}
 
 export const createNote = async (userId: string, noteData: Note) => {
   const userNotesRef = collection(db, "notes", userId, "userNotes");

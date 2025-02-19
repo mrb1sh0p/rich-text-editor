@@ -1,22 +1,18 @@
+import "./css/Editor.css";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { FiSave } from "react-icons/fi";
+
+import { Note } from "../types/note";
+import HistoryPanel from "./HistoryPanel";
 import Toolbar from "./Toolbar";
 import FindReplaceModal from "./FindReplaceModal";
 import TableInsertModal from "./TableInsertModal";
 import { sanitizeHTML } from "../utils/sanitize";
-import "./css/Editor.css";
 
 interface HistoryState {
   stack: string[];
   pointer: number;
-}
-
-interface Note {
-  id?: string;
-  title: string;
-  content: string;
-  updatedAt: Date;
 }
 
 interface EditorProps {
@@ -26,6 +22,7 @@ interface EditorProps {
 
 const Editor = ({ note, onSave }: EditorProps) => {
   const { t } = useTranslation("editor");
+  const [showHistory, setShowHistory] = useState(false);
   const editorRef = useRef<HTMLDivElement>(null);
   const [showFindReplace, setShowFindReplace] = useState(false);
   const [showTableInsert, setShowTableInsert] = useState(false);
@@ -34,6 +31,14 @@ const Editor = ({ note, onSave }: EditorProps) => {
     stack: [""],
     pointer: 0,
   });
+
+  const handleRestore = (content: string) => {
+    if (editorRef.current) {
+      editorRef.current.innerHTML = content;
+      onSave(content);
+      setShowHistory(false);
+    }
+  };
 
   const handleEditorInput = useCallback(() => {
     if (!editorRef.current) return;
@@ -91,6 +96,7 @@ const Editor = ({ note, onSave }: EditorProps) => {
         editorRef={editorRef}
         setShowFindReplace={() => setShowFindReplace(true)}
         setShowTableInsert={() => setShowTableInsert(true)}
+        setShowHistory={async () => setShowHistory(!showHistory)}
       />
 
       {showFindReplace && (
@@ -105,6 +111,10 @@ const Editor = ({ note, onSave }: EditorProps) => {
           editorRef={editorRef}
           onClose={() => setShowTableInsert(false)}
         />
+      )}
+
+      {showHistory && note && (
+        <HistoryPanel history={note.history} onRestore={handleRestore} />
       )}
 
       <div

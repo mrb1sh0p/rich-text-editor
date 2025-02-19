@@ -34,12 +34,14 @@ interface ToolbarProps {
   setShowFindReplace: React.Dispatch<React.SetStateAction<boolean>>;
   setShowTableInsert: React.Dispatch<React.SetStateAction<boolean>>;
   editorRef: React.RefObject<HTMLDivElement | null>;
+  setShowHistory: () => {};
 }
 
 export default function Toolbar({
   setHistory,
   setShowFindReplace,
   setShowTableInsert,
+  setShowHistory,
   editorRef,
   history,
 }: ToolbarProps) {
@@ -165,6 +167,7 @@ export default function Toolbar({
           <option value="h3">{t("toolbar.heading")} 3</option>
         </select>
       </div>
+
       <div className="line-down">
         <button onClick={() => handleUndo()} disabled={history.pointer === 0}>
           <FaUndo />
@@ -193,6 +196,9 @@ export default function Toolbar({
           }}
         >
           <FaImage />
+        </button>
+        <button onClick={setShowHistory} className="history-toggle">
+          {t("editor.history")}
         </button>
         <div className="export">
           <ExportDropdown onExport={handleExport} />

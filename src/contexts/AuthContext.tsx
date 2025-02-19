@@ -3,7 +3,7 @@ import {
   AUTH_ERROR_CODES_MAP_DO_NOT_USE_INTERNALLY,
   AuthErrorCode,
 } from "../authErrorCodes";
-import { provider } from "../firebase/config";
+import { analytics, provider } from "../firebase/config";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -11,6 +11,7 @@ import {
   signInWithPopup,
   User,
 } from "firebase/auth";
+import { logEvent } from "firebase/analytics";
 
 interface AuthContextType {
   user: User | null;
@@ -70,7 +71,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (password !== coPassword) {
         throw new Error("PASSWORD_MISMATCH");
       }
-      await createUserWithEmailAndPassword(auth, email, password);
+      await createUserWithEmailAndPassword(auth, email, password).then(() => {
+        logEvent(analytics, "user_created", { email: email });
+      });
     } catch (error: any) {
       if (error.message === "PASSWORD_MISMATCH") {
         throw new Error("PASSWORD_MISMATCH");

@@ -23,8 +23,8 @@ const LanguageSwitcher: React.FC = () => {
         onChange={(e) => changeLanguage(e.target.value)}
         aria-label={t("switch_language")}
       >
-        <option value="en">English</option>
         <option value="pt">Português</option>
+        <option value="en">English</option>
       </select>
     </div>
   );

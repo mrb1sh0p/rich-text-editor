@@ -100,14 +100,6 @@ const Sidebar: React.FC<SidebarProps> = ({
                   </button>
                 </div>
                 <small>
-                  {new Date(note.updatedAt.toDate()).toLocaleDateString(
-                    undefined,
-                    {
-                      day: "numeric",
-                      month: "short",
-                      year: "numeric",
-                    }
-                  )}
                 </small>
               </div>
             ))}

@@ -1,17 +1,18 @@
-import { useCallback, useEffect, useRef } from 'react';
-import debounce from 'lodash.debounce';
+import { useCallback, useEffect, useRef } from "react";
+import debounce from "lodash.debounce";
 
 type SaveAction = (content: string) => Promise<void> | void;
 
 export const useDebouncedSave = (
   saveAction: SaveAction,
   delay: number = 500
-): ((content: string) => void) => {
+) => {
   const debouncedSaveRef = useRef(
-    debounce((content: string) => {
-      const result = saveAction(content);
-      if (result instanceof Promise) {
-        result.catch(console.error);
+    debounce(async (content: string) => {
+      try {
+        await saveAction(content);
+      } catch (error) {
+        console.error("Save error:", error);
       }
     }, delay)
   );

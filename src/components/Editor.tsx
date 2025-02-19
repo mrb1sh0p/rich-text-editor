@@ -9,6 +9,7 @@ import Toolbar from "./Toolbar";
 import FindReplaceModal from "./FindReplaceModal";
 import TableInsertModal from "./TableInsertModal";
 import { sanitizeHTML } from "../utils/sanitize";
+import { useDebouncedSave } from "../hooks/useDebouncedSave";
 
 interface HistoryState {
   stack: string[];
@@ -32,6 +33,20 @@ const Editor = ({ note, onSave }: EditorProps) => {
     pointer: 0,
   });
 
+  const debouncedSave = useDebouncedSave(
+    useCallback(
+      async (content: string) => {
+        try {
+          onSave(content);
+        } finally {
+          setIsSaving(false);
+        }
+      },
+      [onSave]
+    ),
+    500
+  );
+
   const handleRestore = (content: string) => {
     if (editorRef.current) {
       editorRef.current.innerHTML = content;
@@ -52,14 +67,13 @@ const Editor = ({ note, onSave }: EditorProps) => {
     }));
 
     // Atualização imediata do estado pai
-    onSave(content);
-  }, [onSave]);
+    debouncedSave(content);
+  }, [debouncedSave]);
 
   useEffect(() => {
     const handleInput = () => {
       setIsSaving(true);
       handleEditorInput();
-      setTimeout(() => setIsSaving(false), 500); // Simula feedback visual
     };
 
     const editor = editorRef.current;

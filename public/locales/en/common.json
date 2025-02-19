@@ -19,5 +19,16 @@
   "empty_user": {
     "title": "Faça login para continuar",
     "message": "Faça login no canto superior direito da tela, diretametne pelo Google"
+  },
+  "login": {
+    "welcome": "Welcome to",
+    "title": "Log in to your account to continue",
+    "email": "Email",
+    "password": "Password",
+    "sign_in": "Sign In",
+    "logging_in": "logging in...",
+    "sign_up": "Sign Up",
+    "or": "or",
+    "login_with": "login_with "
   }
 }

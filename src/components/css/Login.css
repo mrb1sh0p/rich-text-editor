@@ -9,8 +9,7 @@
   padding: 2rem;
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 100%;
-  max-width: 400px;
+  width: 500px;
 }
 
 .login-container h1 {
@@ -26,6 +25,7 @@
 }
 
 .form-group {
+  text-align: left;
   margin-bottom: 1.5rem;
 }
 
@@ -112,4 +112,19 @@
   border-radius: 8px;
   margin-bottom: 1.5rem;
   text-align: center;
+}
+
+@media (max-width: 768px) {
+  .login-card {
+    padding: 1rem;
+    width: 300px;
+  }
+
+  .login-container h1 {
+    font-size: var(--text-2xl);
+  }
+
+  .subtitle {
+    font-size: var(--text-xs);
+  }
 }

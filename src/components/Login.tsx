@@ -4,8 +4,10 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/config";
 import "./css/Login.css";
 import { useAuth } from "../contexts/AuthContext";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
+  const { t } = useTranslation("common");
   const { signInWithGoogle } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -29,14 +31,14 @@ const Login = () => {
   return (
     <div className="login-container">
       <div className="login-card">
-        <h1>Bem-vindo ao Richly</h1>
-        <p className="subtitle">Acesse sua conta para continuar</p>
+        <h1>{t("login.welcome")} Richly</h1>
+        <p className="subtitle">{t("login.title")}</p>
 
         {error && <div className="error-message">{error}</div>}
 
         <form onSubmit={handleEmailLogin}>
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">{t("login.email")}</label>
             <input
               type="email"
               id="email"
@@ -47,7 +49,7 @@ const Login = () => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="password">Senha</label>
+            <label htmlFor="password">{t("login.password")}</label>
             <input
               type="password"
               id="password"
@@ -58,18 +60,18 @@ const Login = () => {
           </div>
 
           <button type="submit" disabled={isLoading}>
-            {isLoading ? "Entrando..." : "Entrar"}
+            {isLoading ? t("login.logging_in") : t("login.sign_in")}
           </button>
         </form>
 
-        <div className="separator">ou</div>
+        <div className="separator">{t("login.or")}</div>
 
         <button
           className="google-btn"
           onClick={signInWithGoogle}
           disabled={isLoading}
         >
-          Entrar com Google
+          {t("login.login_with")} Google
         </button>
       </div>
     </div>

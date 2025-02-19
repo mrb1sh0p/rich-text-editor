@@ -1,0 +1,53 @@
+/* src/components/HistoryPanel.css */
+.history-panel {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 300px;
+  height: 100vh;
+  background: var(--bg-color);
+  border-left: 1px solid var(--border-color);
+  padding: 1rem;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.history-list {
+  margin-top: 1rem;
+}
+
+.history-item {
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border-radius: var(--radius-md);
+  background: var(--surface-color);
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.history-time {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.restore-btn {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  padding: 0.25rem 0.5rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+}
+
+.history-preview {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

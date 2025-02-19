@@ -35,5 +35,10 @@
     "newRichly": "Novo no Richly?",
     "oldRichly": "Já tem conta no Richly?",
     "confirm": "Confirmar senha"
+  },
+  "history": {
+    "title": "Histórico de Alterações",
+    "restore": "Restaurar",
+    "empty": "Nenhuma alteração registrada"
   }
 }

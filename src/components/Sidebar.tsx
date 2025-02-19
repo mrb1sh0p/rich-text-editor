@@ -1,15 +1,9 @@
-import React, { use, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { FiMenu, FiX } from "react-icons/fi";
 import SearchBar from "./SearchBar";
 import "./css/Sidebar.css";
-
-interface Note {
-  id?: string;
-  title: string;
-  content: string;
-  updatedAt: Date;
-}
+import { Note } from "../types/note";
 
 interface SidebarProps {
   notes: Note[];
@@ -41,7 +35,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   );
 
   const handleStartEditing = (note: Note) => {
-    setEditingNoteId(note.id || '');
+    setEditingNoteId(note.id || "");
     setEditedTitle(note.title);
   };
 
@@ -84,9 +78,9 @@ const Sidebar: React.FC<SidebarProps> = ({
                       type="text"
                       value={editedTitle}
                       onChange={(e) => setEditedTitle(e.target.value)}
-                      onBlur={() => handleSaveTitle(note.id || '')}
+                      onBlur={() => handleSaveTitle(note.id || "")}
                       onKeyDown={(e) =>
-                        e.key === "Enter" && handleSaveTitle(note.id || '')
+                        e.key === "Enter" && handleSaveTitle(note.id || "")
                       }
                       autoFocus
                     />
@@ -99,14 +93,14 @@ const Sidebar: React.FC<SidebarProps> = ({
                     className="delete-btn"
                     onClick={(e) => {
                       e.stopPropagation();
-                      onDeleteNote(note.id || '');
+                      onDeleteNote(note.id || "");
                     }}
                   >
                     <FiX />
                   </button>
                 </div>
                 <small>
-                  {new Date(note.updatedAt).toLocaleDateString(undefined, {
+                  {note.updatedAt.toLocaleDateString(undefined, {
                     day: "numeric",
                     month: "short",
                     year: "numeric",

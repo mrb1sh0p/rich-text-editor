@@ -1,22 +1,19 @@
+import "./css/Editor.css";
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { FiSave } from "react-icons/fi";
+
+import { Note } from "../types/note";
+import HistoryPanel from "./HistoryPanel";
 import Toolbar from "./Toolbar";
 import FindReplaceModal from "./FindReplaceModal";
 import TableInsertModal from "./TableInsertModal";
 import { sanitizeHTML } from "../utils/sanitize";
-import "./css/Editor.css";
+import { useDebouncedSave } from "../hooks/useDebouncedSave";
 
 interface HistoryState {
   stack: string[];
   pointer: number;
-}
-
-interface Note {
-  id?: string;
-  title: string;
-  content: string;
-  updatedAt: Date;
 }
 
 interface EditorProps {
@@ -26,6 +23,7 @@ interface EditorProps {
 
 const Editor = ({ note, onSave }: EditorProps) => {
   const { t } = useTranslation("editor");
+  const [showHistory, setShowHistory] = useState(false);
   const editorRef = useRef<HTMLDivElement>(null);
   const [showFindReplace, setShowFindReplace] = useState(false);
   const [showTableInsert, setShowTableInsert] = useState(false);
@@ -34,6 +32,28 @@ const Editor = ({ note, onSave }: EditorProps) => {
     stack: [""],
     pointer: 0,
   });
+
+  const debouncedSave = useDebouncedSave(
+    useCallback(
+      async (content: string) => {
+        try {
+          onSave(content);
+        } finally {
+          setIsSaving(false);
+        }
+      },
+      [onSave]
+    ),
+    500
+  );
+
+  const handleRestore = (content: string) => {
+    if (editorRef.current) {
+      editorRef.current.innerHTML = content;
+      onSave(content);
+      setShowHistory(false);
+    }
+  };
 
   const handleEditorInput = useCallback(() => {
     if (!editorRef.current) return;
@@ -46,15 +66,13 @@ const Editor = ({ note, onSave }: EditorProps) => {
       pointer: prev.pointer + 1,
     }));
 
-    // Atualização imediata do estado pai
-    onSave(content);
-  }, [onSave]);
+    debouncedSave(content);
+  }, [debouncedSave]);
 
   useEffect(() => {
     const handleInput = () => {
       setIsSaving(true);
       handleEditorInput();
-      setTimeout(() => setIsSaving(false), 500); // Simula feedback visual
     };
 
     const editor = editorRef.current;
@@ -91,6 +109,7 @@ const Editor = ({ note, onSave }: EditorProps) => {
         editorRef={editorRef}
         setShowFindReplace={() => setShowFindReplace(true)}
         setShowTableInsert={() => setShowTableInsert(true)}
+        setShowHistory={async () => setShowHistory(!showHistory)}
       />
 
       {showFindReplace && (
@@ -105,6 +124,10 @@ const Editor = ({ note, onSave }: EditorProps) => {
           editorRef={editorRef}
           onClose={() => setShowTableInsert(false)}
         />
+      )}
+
+      {showHistory && note && (
+        <HistoryPanel history={note.history} onRestore={handleRestore} />
       )}
 
       <div

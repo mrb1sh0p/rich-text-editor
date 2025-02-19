@@ -35,5 +35,10 @@
     "newRichly": "New to Richly?",
     "oldRichly": "Already have a Richly account?",
     "confirm": "Confirm password"
+  },
+  "history": {
+    "title": "Revision History",
+    "restore": "Restore",
+    "empty": "No changes recorded"
   }
 }

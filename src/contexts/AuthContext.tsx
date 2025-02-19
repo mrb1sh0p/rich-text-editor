@@ -1,10 +1,12 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  use,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { provider } from "../firebase/config";
-import {
-  getAuth,
-  signInWithPopup,
-  User,
-} from "firebase/auth";
+import { getAuth, signInWithPopup, User } from "firebase/auth";
 
 interface AuthContextType {
   user: User | null;

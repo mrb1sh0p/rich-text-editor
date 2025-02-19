@@ -1,12 +1,6 @@
-.auth-section img {
-  border-radius: 100%;
-  width: 40%;
-}
-
 .login {
   width: 100%;
   padding: 8px;
-  margin-bottom: 1rem;
   background: var(--primary-color);
   color: white;
   border: none;
@@ -19,4 +13,8 @@
   border: none;
   font: 16px;
   color: var(--text-color);
+}
+
+.auth-section{
+  padding: 10px;
 }

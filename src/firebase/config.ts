@@ -4,7 +4,7 @@ import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyB7XmzXUuOyox5MWfKW1aO93FHEvKcShJw",
+  apiKey: process.env.REACT_APP_API_KEY,
   authDomain: "richly-1f057.firebaseapp.com",
   projectId: "richly-1f057",
   storageBucket: "richly-1f057.firebasestorage.app",

@@ -1,9 +1,8 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
+import {
+  AUTH_ERROR_CODES_MAP_DO_NOT_USE_INTERNALLY,
+  AuthErrorCode,
+} from "../authErrorCodes";
 import { provider } from "../firebase/config";
 import {
   createUserWithEmailAndPassword,
@@ -18,7 +17,15 @@ interface AuthContextType {
   loading: boolean;
   signInWithGoogle: () => Promise<void>;
   signOut: () => Promise<void>;
-  createUserWithEmail: (params: { email: string; password: string }) => Promise<void>;
+  createUserWithEmail: (params: {
+    email: string;
+    password: string;
+    coPassword: string;
+  }) => Promise<void>;
+  signInWithEmail: (params: {
+    email: string;
+    password: string;
+  }) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -46,10 +53,40 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       await signInWithPopup(auth, provider);
     } catch (error) {
       console.error("Error signing in with Google:", error);
+      throw error;
     }
   };
 
   const createUserWithEmail = async ({
+    email,
+    password,
+    coPassword,
+  }: {
+    email: string;
+    password: string;
+    coPassword: string;
+  }) => {
+    try {
+      if (password !== coPassword) {
+        throw new Error("PASSWORD_MISMATCH");
+      }
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+      if (error.message === "PASSWORD_MISMATCH") {
+        throw new Error("PASSWORD_MISMATCH");
+      }
+
+      const firebaseErrorCode = error.code;
+      const errorKey =
+        Object.entries(AUTH_ERROR_CODES_MAP_DO_NOT_USE_INTERNALLY).find(
+          ([, value]) => value === firebaseErrorCode
+        )?.[0] || "INTERNAL_ERROR";
+
+      throw new Error(errorKey);
+    }
+  };
+
+  const signInWithEmail = async ({
     email,
     password,
   }: {
@@ -57,23 +94,37 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     password: string;
   }) => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
-    } catch (error) {
-      console.log("Error create user with emeail: ", error);
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error: any) {
+      const errorCode = error.code;
+      const errorKey =
+        (Object.entries(AUTH_ERROR_CODES_MAP_DO_NOT_USE_INTERNALLY).find(
+          ([, value]) => value === errorCode
+        )?.[0] as AuthErrorCode) || "INTERNAL_ERROR";
+
+      throw new Error(errorKey);
     }
   };
 
   const signOut = async () => {
     try {
       await auth.signOut();
-    } catch (error) {
-      console.error("Error signing out:", error);
+    } catch (err) {
+      console.error("Error signing out:", err);
+      throw err;
     }
   };
 
   return (
     <AuthContext.Provider
-      value={{ user, loading, signInWithGoogle, createUserWithEmail, signOut }}
+      value={{
+        user,
+        loading,
+        signInWithGoogle,
+        createUserWithEmail,
+        signInWithEmail,
+        signOut,
+      }}
     >
       {children}
     </AuthContext.Provider>

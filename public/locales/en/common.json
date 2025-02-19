@@ -23,12 +23,17 @@
   "login": {
     "welcome": "Welcome to",
     "title": "Log in to your account to continue",
+    "newUser": "Create your accoutnt to continue",
     "email": "Email",
     "password": "Password",
     "sign_in": "Sign In",
-    "logging_in": "logging in...",
+    "logging_in": "Logging in...",
+    "creating account...": "Creating account...",
     "sign_up": "Sign Up",
     "or": "or",
-    "login_with": "login_with "
+    "login_with": "login with ",
+    "newRichly": "New to Richly?",
+    "oldRichly": "Already have a Richly account?",
+    "confirm": "Confirm password"
   }
 }

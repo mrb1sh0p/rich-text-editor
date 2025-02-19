@@ -94,15 +94,19 @@
   right: 0;
 }
 
-.signup-link {
-  text-align: center;
-  margin-top: 1.5rem;
+.signup {
+  display: flex;
+
+  text-align: left;
+  margin-top: 0.5rem;
   color: var(--text-color);
 }
 
-.signup-link a {
+.btn_signup {
   color: var(--primary-color);
   text-decoration: none;
+  cursor: pointer;
+  margin-left: 5px;
 }
 
 .error-message {

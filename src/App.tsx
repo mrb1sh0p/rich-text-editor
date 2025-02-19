@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Sidebar from "./components/Sidebar";
 import Editor from "./components/Editor";
+import Login from "./components/Login";
 import { useAuth } from "./contexts/AuthContext";
 import {
   createNote,
@@ -166,40 +167,41 @@ const App = () => {
     <div className="app-container">
       <Header darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)} />
 
-      {user ? (
-        <main className="main-content">
-          <Sidebar
-            notes={notes}
-            currentNote={currentNote}
-            onCreateNote={createNewNote}
-            onSelectNote={(note) => setCurrentNoteId(note.id || "")}
-            onUpdateNote={(id, title) => updateNote(id, { title })}
-            onDeleteNote={deleteNote}
-          />
+      <main className="main-content">
+        {user ? (
+          <>
+            <Sidebar
+              notes={notes}
+              currentNote={currentNote}
+              onCreateNote={createNewNote}
+              onSelectNote={(note) => setCurrentNoteId(note.id || "")}
+              onUpdateNote={(id, title) => updateNote(id, { title })}
+              onDeleteNote={deleteNote}
+            />
 
-          <div className="editor-wrapper">
-            {currentNote ? (
-              <Editor
-                key={currentNote.id}
-                note={currentNote}
-                onSave={(content) =>
-                  updateNote(currentNote.id || "", { content })
-                }
-              />
-            ) : (
-              <div className="empty-state">
-                <h2>{t("empty_state.title")}</h2>
-                <p>{t("empty_state.message")}</p>
-              </div>
-            )}
+            <div className="editor-wrapper">
+              {currentNote ? (
+                <Editor
+                  key={currentNote.id}
+                  note={currentNote}
+                  onSave={(content) =>
+                    updateNote(currentNote.id || "", { content })
+                  }
+                />
+              ) : (
+                <div className="empty-state">
+                  <h2>{t("empty_state.title")}</h2>
+                  <p>{t("empty_state.message")}</p>
+                </div>
+              )}
+            </div>
+          </>
+        ) : (
+          <div className="empty-state">
+            <Login />
           </div>
-        </main>
-      ) : (
-        <div className="empty-state">
-          <h2>{t("empty_user.title")}</h2>
-          <p>{t("empty_user.message")}</p>
-        </div>
-      )}
+        )}
+      </main>
       <Footer />
     </div>
   );

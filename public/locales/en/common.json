@@ -19,5 +19,21 @@
   "empty_user": {
     "title": "Faça login para continuar",
     "message": "Faça login no canto superior direito da tela, diretametne pelo Google"
+  },
+  "login": {
+    "welcome": "Welcome to",
+    "title": "Log in to your account to continue",
+    "newUser": "Create your accoutnt to continue",
+    "email": "Email",
+    "password": "Password",
+    "sign_in": "Sign In",
+    "logging_in": "Logging in...",
+    "creating account...": "Creating account...",
+    "sign_up": "Sign Up",
+    "or": "or",
+    "login_with": "login with ",
+    "newRichly": "New to Richly?",
+    "oldRichly": "Already have a Richly account?",
+    "confirm": "Confirm password"
   }
 }

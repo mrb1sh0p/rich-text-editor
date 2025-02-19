@@ -66,7 +66,6 @@ const Editor = ({ note, onSave }: EditorProps) => {
       pointer: prev.pointer + 1,
     }));
 
-    // Atualização imediata do estado pai
     debouncedSave(content);
   }, [debouncedSave]);
 

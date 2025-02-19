@@ -5,7 +5,7 @@ type SaveAction = (content: string) => Promise<void> | void;
 
 export const useDebouncedSave = (
   saveAction: SaveAction,
-  delay: number = 500
+  delay: number = 1000
 ) => {
   const debouncedSaveRef = useRef(
     debounce(async (content: string) => {

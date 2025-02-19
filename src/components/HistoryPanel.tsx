@@ -19,7 +19,7 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ history, onRestore }) => {
           <div key={index} className="history-item">
             <div className="history-header">
               <span className="history-time">
-                {new Date(entry.timestamp.seconds * 1000).toLocaleString()}
+                {new Date(entry.timestamp).toLocaleString()}
               </span>
               <button
                 onClick={() => onRestore(entry.content)}

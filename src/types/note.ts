@@ -1,7 +1,5 @@
-import { Timestamp } from "firebase/firestore";
-
 export interface NoteHistoryEntry {
-  timestamp: Timestamp;
+  timestamp: Date;
   content: string;
 }
 
@@ -9,6 +7,6 @@ export interface Note {
   id?: string;
   title: string;
   content: string;
-  updatedAt: Timestamp;
+  updatedAt: Date;
   history: NoteHistoryEntry[];
 }

@@ -14,11 +14,9 @@ import {
   getNotes,
 } from "./services/notesService";
 import "./theme.css";
-import firebase from "firebase/app";
 import "firebase/firestore";
 import "./App.css";
 import "./components/css/LoginButton.css";
-import { Timestamp } from "firebase/firestore";
 
 const App = () => {
   const { t } = useTranslation("common");
@@ -50,6 +48,17 @@ const App = () => {
       try {
         if (user?.email) {
           const cloudNotes = await getNotes(user.uid);
+
+          // convertendo timestamps que vem do servidor
+          const noteWithDate = cloudNotes.map((note) => ({
+            ...note,
+            updatedAt: new Date(note.updatedAt),
+            history: note.history.map((entry) => ({
+              ...entry,
+              timestamp: new Date(entry.timestamp),
+            })),
+          }));
+
           if (isMounted) setNotes(cloudNotes);
         } else {
           const localNotes = localStorage.getItem("notes");
@@ -57,7 +66,11 @@ const App = () => {
 
           const migratedNotes = parsedNotes.map((note: any) => ({
             ...note,
-            history: note.history || [],
+            updatedAt: new Date(note.updatedAt),
+            history: (note.history || []).map((entry: any) => ({
+              content: entry.content,
+              timestamp: new Date(entry.timestamp), 
+            })),
           }));
 
           const validNotes = migratedNotes.filter(
@@ -95,7 +108,7 @@ const App = () => {
       const newNote: Note = {
         title: t("sidebar.untitled"),
         content: "",
-        updatedAt: Timestamp.fromDate(new Date()),
+        updatedAt: new Date(),
         history: [],
       };
 
@@ -116,14 +129,14 @@ const App = () => {
           return prevNotes.map((note) => {
             if (note.id === noteId) {
               const newHistoryEntry = {
-                timestamp: Timestamp.fromDate(new Date()),
+                timestamp: new Date(),
                 content: note.content,
               };
 
               const updatedNote = {
                 ...note,
                 ...updates,
-                updatedAt: Timestamp.fromDate(new Date()),
+                updatedAt: new Date(),
                 history: [newHistoryEntry, ...(note.history || [])].slice(
                   0,
                   MAX_HISTORY_ENTRIES

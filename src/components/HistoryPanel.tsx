@@ -16,10 +16,10 @@ const HistoryPanel: React.FC<HistoryPanelProps> = ({ history, onRestore }) => {
       <h3>{t("history.title")}</h3>
       <div className="history-list">
         {history.map((entry, index) => (
-          <div key={entry.timestamp.toISOString()} className="history-item">
+          <div key={index} className="history-item">
             <div className="history-header">
               <span className="history-time">
-                {new Date(entry.timestamp).toLocaleString()}
+                {new Date(entry.timestamp.seconds * 1000).toLocaleString()}
               </span>
               <button
                 onClick={() => onRestore(entry.content)}

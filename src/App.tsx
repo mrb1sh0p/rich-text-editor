@@ -14,8 +14,11 @@ import {
   getNotes,
 } from "./services/notesService";
 import "./theme.css";
+import firebase from "firebase/app";
+import "firebase/firestore";
 import "./App.css";
 import "./components/css/LoginButton.css";
+import { Timestamp } from "firebase/firestore";
 
 const App = () => {
   const { t } = useTranslation("common");
@@ -92,7 +95,7 @@ const App = () => {
       const newNote: Note = {
         title: t("sidebar.untitled"),
         content: "",
-        updatedAt: new Date(),
+        updatedAt: Timestamp.fromDate(new Date()),
         history: [],
       };
 
@@ -113,18 +116,18 @@ const App = () => {
           return prevNotes.map((note) => {
             if (note.id === noteId) {
               const newHistoryEntry = {
-                timestamp: new Date(),
+                timestamp: Timestamp.fromDate(new Date()),
                 content: note.content,
               };
 
               const updatedNote = {
                 ...note,
                 ...updates,
-                updatedAt: new Date(),
-                history: [
-                  newHistoryEntry,
-                  ...(note.history || []), 
-                ].slice(0, MAX_HISTORY_ENTRIES),
+                updatedAt: Timestamp.fromDate(new Date()),
+                history: [newHistoryEntry, ...(note.history || [])].slice(
+                  0,
+                  MAX_HISTORY_ENTRIES
+                ),
               };
 
               // Atualizar servidor (se logado)

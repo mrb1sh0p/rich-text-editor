@@ -1,6 +1,5 @@
 // src/pages/Login.tsx
 import { useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/config";
 import "./css/Login.css";
 import { useAuth } from "../contexts/AuthContext";
@@ -8,11 +7,25 @@ import { useTranslation } from "react-i18next";
 
 const Login = () => {
   const { t } = useTranslation("common");
-  const { signInWithGoogle } = useAuth();
+  const { signInWithGoogle, createUserWithEmail } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleCreateUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
+
+    try {
+      await createUserWithEmail({ email, password });
+    } catch (err) {
+      setError("Email ou senha inválidos");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,13 +33,14 @@ const Login = () => {
     setError("");
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      await createUserWithEmail({ email, password });
     } catch (err) {
       setError("Email ou senha inválidos");
     } finally {
       setIsLoading(false);
     }
   };
+
 
   return (
     <div className="login-container">

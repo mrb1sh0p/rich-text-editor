@@ -53,7 +53,7 @@ const App = () => {
       try {
         if (user?.email) {
           // Carregar do servidor
-          const cloudNotes = await getNotes(user.email);
+          const cloudNotes = await getNotes(user.uid);
           if (isMounted) setNotes(cloudNotes);
         } else {
           // Carregar do localStorage
@@ -107,7 +107,7 @@ const App = () => {
         updatedAt: new Date(),
       };
 
-      const createdNote = await createNote(user!.email || "", newNote);
+      const createdNote = await createNote(user.uid, newNote);
       setNotes((prev) => [{ id: createdNote.id, ...newNote }, ...prev]);
       setCurrentNoteId(createdNote.id);
     } catch (error) {
@@ -132,7 +132,7 @@ const App = () => {
         );
 
         if (user) {
-          await updateNoteService(user.email || "", noteId, safeUpdates);
+          await updateNoteService(user.uid, noteId, safeUpdates);
         }
       } catch (error) {
         console.error("Failed to update note:", error);
@@ -147,7 +147,7 @@ const App = () => {
         setNotes((prev) => prev.filter((n) => n.id !== noteId));
 
         if (user) {
-          await deleteNoteService(user!.email || "", noteId);
+          await deleteNoteService(user.uid, noteId);
         }
 
         if (noteId === currentNoteId) {
@@ -172,7 +172,7 @@ const App = () => {
             notes={notes}
             currentNote={currentNote}
             onCreateNote={createNewNote}
-            onSelectNote={(note) => setCurrentNoteId(note.id || '')}
+            onSelectNote={(note) => setCurrentNoteId(note.id || "")}
             onUpdateNote={(id, title) => updateNote(id, { title })}
             onDeleteNote={deleteNote}
           />
@@ -182,7 +182,9 @@ const App = () => {
               <Editor
                 key={currentNote.id}
                 note={currentNote}
-                onSave={(content) => updateNote(currentNote.id || '', { content })}
+                onSave={(content) =>
+                  updateNote(currentNote.id || "", { content })
+                }
               />
             ) : (
               <div className="empty-state">

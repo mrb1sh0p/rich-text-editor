@@ -17,7 +17,7 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleTheme }) => {
     <header className="app-header">
       <div className="header-content">
         <LanguageSwitcher />
-        <div>
+        <div className="center">
           <h1>Richly</h1>
           {user ? (
             <p className="user">

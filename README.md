@@ -2,49 +2,76 @@
 
 ![Editor Screenshot](/public/screenshot.png)
 
-Um Rich Text básico (até o momento) construido com React, incluindo formatação essencial e funcionalidades básicas de edição.
+Richly é um editor de texto rico (rich text editor) moderno e responsivo, desenvolvido com React e TypeScript. Oferece funcionalidades avançadas de edição, suporte a múltiplos idiomas e sincronização em tempo real.
 
-## ✨ Funcionalidades
+## Funcionalidades Principais
 
-- **Formatação básica de texto:**
-  - Negrito, itálico e sublinhado
-  - Seleção de cabeçalhos (H1-H3)
-  - Listas não ordenadas
-- **Inserção de elementos:**
-  - Links externos
-  - Imagens via URL
-- **Histórico de edição:**
-  - Desfazer/Refazer ações
-  - Persistência automática no localStorage
-- **Interface amigável:**
-  - Ícones intuitivos
-  - Feedback visual de formatação ativa
-  - Layout responsivo
+- 🖋️ **Edição Rich Text**
+  - Formatação básica (negrito, itálico, sublinhado)
+  - Cabeçalhos e parágrafos
+  - Listas ordenadas e não ordenadas
+  - Inserção de links e imagens
+  - Tabelas avançadas
 
-## Ultimas atualizações
-- Upload de imagens via API
-- Sistema de tratamento de erros
-- Acessibilidade WCAG 2.1
-- Exportação para múltiplos formatos
-- Sanitização segura de conteúdo
+- 🌐 **Internacionalização**
+  - Suporte a múltiplos idiomas (pt-BR, en-US, fr-FR)
+  - Troca de idioma em tempo real
+  - Traduções completas da interface
+
+- 💾 **Gerenciamento de Notas**
+  - Criação e exclusão de notas
+  - Histórico de alterações
+  - Salvamento automático
+  - Pesquisa rápida
+
+- 🎨 **Personalização**
+  - Tema claro e escuro
+  - Interface responsiva
+  - Atalhos de teclado
+
+- 🔒 **Segurança**
+  - Sanitização de conteúdo HTML
+  - Validação de URLs
+  - Proteção contra XSS
+
+## Tecnologias Utilizadas
+
+- **Frontend:**
+  - React
+  - TypeScript
+  - i18next (internacionalização)
+  - React Icons
+  - DOMPurify (sanitização)
+
+- **Estilização:**
+  - CSS Modules
+  - Variáveis CSS modernas
+  - Design System próprio
+
+- **Ferramentas:**
+  - ESLint
+  - Prettier
+  - Husky (git hooks)
+
 
 ## 🛠️ Estrutura do Projeto
 
 ```bash
-/src
-├── components
-│   ├── Editor.js       # Componente principal do editor
-│   └── Editor.css      # Estilos do editor
-├── App.js              # Componente raiz
-├── utils
-│   └── sanitize.js     # Funções de sanitização
-└── index.js            # Ponto de entrada
+richly/
+├── public/             # Assets públicos e templates
+├── src/
+│   ├── components/     # Componentes reutilizáveis
+│   ├── contexts/       # Contextos React
+│   ├── hooks/          # Custom hooks
+│   ├── services/       # Lógica de API e serviços
+│   ├── types/          # Tipos TypeScript
+│   ├── utils/          # Utilitários
+│   ├── App.tsx         # Componente principal
+│   └── index.tsx       # Ponto de entrada
+├── .env.example        # Exemplo de variáveis de ambiente
+├── package.json        # Dependências e scripts
+└── README.md           # Este arquivo
 ```
-
-## 📦 Dependências Principais
-- react: ^19.0.0
-- react-icons: ^5.4.0
-- react-scripts: 5.0.1
 
 ## 🤝 Como Contribuir
 

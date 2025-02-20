@@ -109,6 +109,12 @@ textarea {
   font-size: var(--text-md);
 }
 
+button {
+  background: none;
+  color: var(--text-color);
+  border: none;  
+}
+
 /* Classes Utilitárias */
 .font-light {
   font-weight: 300;

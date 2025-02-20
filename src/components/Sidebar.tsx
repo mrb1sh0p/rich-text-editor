@@ -7,11 +7,13 @@ import { Note } from "../types/note";
 
 interface SidebarProps {
   notes: Note[];
+  isVisible: boolean,
   currentNote: Note | null;
   onSelectNote: (note: Note) => void;
   onCreateNote: () => void;
   onUpdateNote: (id: string, newTitle: string) => void;
   onDeleteNote: (id: string) => void;
+  handleSideBar: () => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
@@ -21,12 +23,13 @@ const Sidebar: React.FC<SidebarProps> = ({
   onCreateNote,
   onUpdateNote,
   onDeleteNote,
+  handleSideBar,
+  isVisible
 }) => {
   const { t } = useTranslation("common");
   const [searchQuery, setSearchQuery] = useState("");
   const [editingNoteId, setEditingNoteId] = useState<string | null>(null);
   const [editedTitle, setEditedTitle] = useState("");
-  const [isVisible, setVisible] = useState(false);
 
   const filteredNotes = notes.filter(
     (note) =>
@@ -45,10 +48,6 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
     setEditingNoteId(null);
     setEditedTitle("");
-  };
-
-  const handleSideBar = () => {
-    setVisible(!isVisible);
   };
 
   return (

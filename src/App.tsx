@@ -20,7 +20,16 @@ import "./components/css/LoginButton.css";
 
 const App = () => {
   const { t } = useTranslation("common");
+  const [isVisible, setVisible] = useState(false);
   const { user } = useAuth();
+
+  const handleSideBar = () => {
+    setVisible(!isVisible);
+  };
+
+  const hideSideBar = () => {
+    setVisible(false);
+  };
 
   // Theme state and initialization
   const [darkMode, setDarkMode] = useState(() => {
@@ -68,7 +77,7 @@ const App = () => {
             updatedAt: new Date(note.updatedAt),
             history: (note.history || []).map((entry: any) => ({
               content: entry.content,
-              timestamp: new Date(entry.timestamp), 
+              timestamp: new Date(entry.timestamp),
             })),
           }));
 
@@ -192,6 +201,8 @@ const App = () => {
           <>
             <Sidebar
               notes={notes}
+              isVisible={isVisible}
+              handleSideBar={handleSideBar}
               currentNote={currentNote}
               onCreateNote={createNewNote}
               onSelectNote={(note) => setCurrentNoteId(note.id || "")}
@@ -204,6 +215,7 @@ const App = () => {
                 <Editor
                   key={currentNote.id}
                   note={currentNote}
+                  setVisibleSidebar={hideSideBar}
                   onSave={(content) =>
                     updateNote(currentNote.id || "", { content })
                   }

@@ -1,5 +1,5 @@
 .editor-container {
-  max-width: 70vw;
+  max-width: 80vw;
   margin: 20px auto;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   flex: 1;
@@ -15,7 +15,7 @@
   padding: 20px;
   border: 1px solid #ddd;
   outline: none;
-  background: #f6f6f6f6;
+  background: var(--editor-color);
   color: black;
 }
 
@@ -130,7 +130,6 @@ th {
   border: none;
   cursor: pointer;
   display: block;
-  transition: background 0.2s;
 }
 
 .menu-item:hover {
@@ -187,8 +186,8 @@ th {
 
 .status-bar {
   padding: 8px 16px;
-  background: #f8f9fa;
-  border-bottom: 1px solid #dee2e6;
+  background: var(--editor-color);
+  border: 1px solid var(--border-color);
   font-size: 0.875rem;
   color: #6c757d;
   display: flex;

@@ -19,9 +19,10 @@ interface HistoryState {
 interface EditorProps {
   note?: Note | null;
   onSave: (content: string) => void;
+  setVisibleSidebar: () => void;
 }
 
-const Editor = ({ note, onSave }: EditorProps) => {
+const Editor = ({ note, onSave, setVisibleSidebar }: EditorProps) => {
   const { t } = useTranslation("editor");
   const [showHistory, setShowHistory] = useState(false);
   const editorRef = useRef<HTMLDivElement>(null);
@@ -136,6 +137,7 @@ const Editor = ({ note, onSave }: EditorProps) => {
         contentEditable={!!note}
         suppressContentEditableWarning
         onInput={handleEditorInput}
+        onFocus={setVisibleSidebar}
       />
 
       <div className="status-bar">

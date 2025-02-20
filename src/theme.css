@@ -9,6 +9,8 @@
   --hover-bg: #f0f4f8; /* Azul claro muito suave */
   --toolbar-bg: #ffffff; /* Branco puro para contraste */
   --surface-color: #ffffff; /* Superfícies brancas */
+  --editor-color: #ffffff; /* Superfícies brancas */
+  --toolbar-button-color: #000000; /* Azul slate moderado */
 
   /* Tons de apoio */
   --success-color: #81c784; /* Verde suave */

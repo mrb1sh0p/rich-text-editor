@@ -13,15 +13,19 @@
 .line-down {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
   gap: 5px;
 }
 
-button {
+.toolbar button,
+.buttons {
   padding: 5px 10px;
   background: white;
   border: 1px solid #ccc;
   border-radius: 3px;
   cursor: pointer;
+  color: var(--primary-color);
 }
 
 .toolbar button.active {
@@ -33,5 +37,10 @@ button {
     display: flex;
     flex-direction: column;
     gap: 5px;
+  }
+
+  .dropdown-trigger .label {
+    display: none;
+    padding: 5px 10px;
   }
 }

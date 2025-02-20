@@ -158,6 +158,7 @@ export default function Toolbar({
           <FaTable />
         </button>
         <select
+          className="buttons"
           aria-label="Formatar bloco"
           onChange={(e) => handleCommand("formatBlock", e.target.value)}
         >

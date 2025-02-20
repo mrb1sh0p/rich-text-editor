@@ -33,8 +33,8 @@ const ExportDropdown: React.FC<ExportDropdownProps> = ({ onExport }) => {
         aria-haspopup="true"
         aria-expanded={isOpen}
       >
-        <FiDownload />
-        {t("default.export")}
+        <FiDownload size={20}/>
+        <div className="label">{t("default.export")}</div>
       </button>
 
       {isOpen && (

@@ -11,16 +11,10 @@
 }
 
 .editor-content {
-  min-height: 70vh;
-  padding: 20px;
-  border: 1px solid #ddd;
-  outline: none;
+  min-height: 55vh;
+  padding: 10px;
   background: var(--editor-color);
   color: black;
-}
-
-.editor-content[contenteditable="true"]:focus {
-  outline: 2px solid #0066cc;
 }
 
 button:focus {
@@ -187,7 +181,7 @@ th {
 .status-bar {
   padding: 8px 16px;
   background: var(--editor-color);
-  border: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-color);
   font-size: 0.875rem;
   color: #6c757d;
   display: flex;

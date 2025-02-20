@@ -1,7 +1,7 @@
 .toolbar {
   padding: 10px;
   background: var(--editor-color);
-  border: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
   border-top-left-radius: 15px;
   border-top-right-radius: 15px;
   display: flex;

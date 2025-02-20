@@ -10,7 +10,7 @@
   --toolbar-bg: #ffffff; /* Branco puro para contraste */
   --surface-color: #ffffff; /* Superfícies brancas */
   --editor-color: #ffffff; /* Superfícies brancas */
-  --toolbar-button-color: #000000; /* Azul slate moderado */
+  --toolbar-button-color: #000000; 
 
   /* Tons de apoio */
   --success-color: #81c784; /* Verde suave */
@@ -114,7 +114,8 @@ textarea {
 button {
   background: none;
   color: var(--text-color);
-  border: none;  
+  border: none;
+  outline: none;
 }
 
 /* Classes Utilitárias */

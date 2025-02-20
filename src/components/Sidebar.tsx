@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { FiMenu, FiX } from "react-icons/fi";
+import { FiMenu, FiSave, FiX } from "react-icons/fi";
 import SearchBar from "./SearchBar";
 import "./css/Sidebar.css";
 import { Note } from "../types/note";
@@ -79,9 +79,15 @@ const Sidebar: React.FC<SidebarProps> = ({
                       value={editedTitle}
                       onChange={(e) => setEditedTitle(e.target.value)}
                       onBlur={() => handleSaveTitle(note.id || "")}
-                      onKeyDown={(e) =>
-                        e.key === "Enter" && handleSaveTitle(note.id || "")
-                      }
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          handleSaveTitle(note.id || "");
+                        }
+
+                        if (e.key === "Escape") {
+                          setEditingNoteId(null);
+                        }
+                      }}
                       autoFocus
                     />
                   ) : (
@@ -93,10 +99,12 @@ const Sidebar: React.FC<SidebarProps> = ({
                     className="delete-btn"
                     onClick={(e) => {
                       e.stopPropagation();
-                      onDeleteNote(note.id || "");
+                      if (editedTitle !== note.id) {
+                        onDeleteNote(note.id || "");
+                      }
                     }}
                   >
-                    <FiX />
+                    {editingNoteId === note.id ? <FiSave /> : <FiX />}
                   </button>
                 </div>
                 <small>

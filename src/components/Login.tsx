@@ -1,6 +1,5 @@
 // src/pages/Login.tsx
 import { useState } from "react";
-import { auth } from "../firebase/config";
 import "./css/Login.css";
 import { useAuth } from "../contexts/AuthContext";
 import { useTranslation } from "react-i18next";
